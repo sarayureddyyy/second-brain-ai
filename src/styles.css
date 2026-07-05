@@ -1,0 +1,148 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background:
+    radial-gradient(circle at top left, rgba(175, 200, 173, 0.32), transparent 31rem),
+    linear-gradient(180deg, #faf9f6 0%, #f7f3ec 100%);
+}
+
+@layer components {
+  .section-shell {
+    @apply mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8;
+  }
+
+  .eyebrow {
+    @apply text-sm font-bold uppercase tracking-[0.16em] text-coral;
+  }
+
+  .section-title {
+    @apply mt-3 max-w-3xl text-3xl font-semibold tracking-tight text-ink sm:text-4xl;
+  }
+
+  .section-copy {
+    @apply text-base leading-7 text-ink/70 sm:text-lg;
+  }
+}
+
+@keyframes calendar-shift {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  45% {
+    transform: translateY(-14px);
+  }
+}
+
+.animate-calendar-shift {
+  animation: calendar-shift 4.8s ease-in-out infinite;
+}
+
+.animate-calendar-shift-delay {
+  animation: calendar-shift 4.8s ease-in-out 1.2s infinite;
+}
+
+@keyframes graph-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes bar-rise {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+.animate-graph-grow {
+  animation: graph-grow 900ms ease-out both;
+  transform-origin: left center;
+}
+
+.animate-bar-rise {
+  animation: bar-rise 900ms ease-out both;
+  transform-origin: bottom center;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 650ms ease-out both;
+}
+
+@keyframes icon-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-icon-float {
+  animation: icon-float 3.4s ease-in-out infinite;
+}
+
+@keyframes demo-progress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes click-ping {
+  0% {
+    opacity: 0;
+    transform: scale(0.45);
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+}
+
+@keyframes drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}

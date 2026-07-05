@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Second Brain AI helps college students organize classes, tasks, applications, clubs, and personal life in one AI-powered workspace."
+    />
+    <title>Second Brain AI</title>
+    <style>
+      html, body { margin: 0; }
+      [data-page] { display: none; }
+      [data-page="top"] { display: grid; }
+      @keyframes calendar-shift {
+        0%, 100% { transform: translateY(0); }
+        45% { transform: translateY(-14px); }
+      }
+      @keyframes graph-grow {
+        from { transform: scaleX(0); }
+        to { transform: scaleX(1); }
+      }
+      @keyframes bar-rise {
+        from { transform: scaleY(0); }
+        to { transform: scaleY(1); }
+      }
+      @keyframes fade-up {
+        from { opacity: 0; transform: translateY(18px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes icon-float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-4px); }
+      }
+      @keyframes demo-progress {
+        from { width: 0%; }
+        to { width: 100%; }
+      }
+      @keyframes demo-pulse {
+        0%, 100% { transform: translateY(0); opacity: 1; }
+        50% { transform: translateY(-5px); opacity: .82; }
+      }
+      @keyframes demo-final {
+        0%, 82% { opacity: 0; }
+        88%, 100% { opacity: 1; }
+      }
+      @keyframes cursor-walk {
+        0%, 100% { left: 11%; top: 30%; }
+        16% { left: 35%; top: 24%; }
+        32% { left: 47%; top: 43%; }
+        48% { left: 78%; top: 58%; }
+        64% { left: 90%; top: 72%; }
+        82% { left: 56%; top: 60%; }
+      }
+      @keyframes cursor-click {
+        0%, 100% { opacity: 0; transform: scale(.5); }
+        45% { opacity: 1; }
+        100% { opacity: 0; transform: scale(1.8); }
+      }
+      @media (max-width: 820px) {
+        [data-calendar-layout] { grid-template-columns: 1fr !important; }
+        [data-dashboard-layout] { grid-template-columns: 1fr !important; }
+        [data-process-line-horizontal] { display: none !important; }
+        [data-process-line-vertical] { display: block !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div style="min-height:100vh;background:#FAF9F6;color:#1F2933;font-family:Inter,system-ui,sans-serif;">
+        <header style="position:sticky;top:0;z-index:50;flex-shrink:0;border-bottom:1px solid rgba(31,41,51,.1);background:rgba(250,249,246,.95);backdrop-filter:blur(16px);">
+          <nav style="max-width:1120px;margin:0 auto;padding:12px 24px;display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;">
+              <a href="#top" style="color:#1F2933;text-decoration:none;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Second Brain AI</a>
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSejWYEeODBE0gQe-dpaemBbTqjJF4OrKRfp23SkW63mmdutQw/viewform?usp=header" target="_blank" rel="noreferrer" style="background:#DF8F7D;color:white;text-decoration:none;white-space:nowrap;border-radius:999px;padding:10px 16px;font-weight:900;box-shadow:0 16px 38px rgba(31,41,51,.12);">Join Waitlist</a>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;overflow-x:auto;padding-bottom:4px;font-size:14px;font-weight:750;">
+              <a href="#top" data-page-link="top" style="color:rgba(31,41,51,.68);text-decoration:none;white-space:nowrap;border-radius:999px;padding:9px 14px;transition:all .2s ease;">Home</a>
+              <a href="#platform" data-page-link="platform" style="color:rgba(31,41,51,.68);text-decoration:none;white-space:nowrap;border-radius:999px;padding:9px 14px;transition:all .2s ease;">The Platform</a>
+              <a href="#how-it-works" data-page-link="how-it-works" style="color:rgba(31,41,51,.68);text-decoration:none;white-space:nowrap;border-radius:999px;padding:9px 14px;transition:all .2s ease;">How It Works</a>
+              <a href="#science" data-page-link="science" style="color:rgba(31,41,51,.68);text-decoration:none;white-space:nowrap;border-radius:999px;padding:9px 14px;transition:all .2s ease;">The Science</a>
+              <a href="#live-demo" data-page-link="live-demo" style="color:rgba(31,41,51,.68);text-decoration:none;white-space:nowrap;border-radius:999px;padding:9px 14px;transition:all .2s ease;">Live Demo</a>
+            </div>
+          </nav>
+        </header>
+        <main id="top" data-page="top" style="min-height:calc(100vh - 116px);max-width:760px;margin:0 auto;text-align:center;display:grid;place-items:center;padding:24px;width:100%;box-sizing:border-box;">
+          <section>
+          <p style="margin:0 0 14px;color:#DF8F7D;font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;">Second Brain AI</p>
+          <h1 style="margin:0;font-size:clamp(40px,8vw,76px);line-height:.98;letter-spacing:-.04em;">Your AI second brain for college life.</h1>
+          <p style="margin:24px auto 0;max-width:620px;color:rgba(31,41,51,.7);font-size:18px;line-height:1.7;">Organize classes, assignments, applications, clubs, and personal tasks in one place - then let AI help you prioritize what to do next.</p>
+          </section>
+        </main>
+        <section id="platform" data-page="platform" style="max-width:1120px;margin:0 auto;padding:72px 24px;width:100%;box-sizing:border-box;">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:34px;align-items:center;">
+            <div>
+              <p style="margin:0 0 14px;color:#DF8F7D;font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;">The Platform</p>
+              <h2 style="margin:0;font-size:clamp(36px,6vw,58px);line-height:1;letter-spacing:-.035em;">The AI operating system for your academic life.</h2>
+              <p style="margin:22px 0 0;color:rgba(31,41,51,.72);font-size:18px;line-height:1.7;">Second Brain AI organizes everything you need to do, prioritizes what matters most, and helps you actually finish your work.</p>
+            </div>
+            <div style="border:1px solid rgba(31,41,51,.1);border-radius:28px;background:white;box-shadow:0 24px 80px rgba(31,41,51,.12);padding:18px;">
+              <div style="display:grid;grid-template-columns:130px 1fr;gap:14px;">
+                <aside style="background:#EFF6F4;border-radius:20px;padding:14px;">
+                  <p style="margin:0 0 12px;color:rgba(31,41,51,.45);font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;">Folders</p>
+                  <div style="display:grid;gap:8px;font-size:13px;font-weight:700;color:rgba(31,41,51,.68);">
+                    <span style="background:white;color:#1F2933;border-radius:14px;padding:10px;">Computer Science</span>
+                    <span style="padding:10px;">Spanish</span>
+                    <span style="padding:10px;">Research</span>
+                    <span style="padding:10px;">Internship</span>
+                    <span style="padding:10px;">Personal</span>
+                  </div>
+                </aside>
+                <div style="display:grid;gap:14px;">
+                  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+                    <div style="background:#FAF9F6;border-radius:18px;padding:12px;"><b>To Do</b><p style="background:white;border-radius:14px;padding:10px;font-size:13px;">Finish Systems Lab</p></div>
+                    <div style="background:#FAF9F6;border-radius:18px;padding:12px;"><b>In Progress</b><p style="background:white;border-radius:14px;padding:10px;font-size:13px;">Spanish vocab</p></div>
+                    <div style="background:#FAF9F6;border-radius:18px;padding:12px;"><b>Completed</b><p style="background:white;border-radius:14px;padding:10px;font-size:13px;">Pay credit card</p></div>
+                  </div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                    <div style="border:1px solid rgba(31,41,51,.1);border-radius:18px;padding:14px;"><b>Calendar</b><p style="font-size:13px;color:rgba(31,41,51,.65);">9:00 Systems Lab<br>1:30 Internship draft</p></div>
+                    <div style="border:1px solid rgba(223,143,125,.25);border-radius:18px;padding:14px;"><b>AI Assistant</b><p style="font-size:13px;color:rgba(31,41,51,.65);">Focus on CS lab first. You have a long open block now.</p></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <section style="padding-top:78px;">
+            <p style="margin:0 0 14px;color:#DF8F7D;font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;text-align:center;">Everything in one place</p>
+            <h2 style="margin:0 auto;max-width:760px;text-align:center;font-size:clamp(32px,5vw,46px);line-height:1.05;letter-spacing:-.03em;">Your folders, tasks, notes, and deadlines together.</h2>
+            <p style="margin:22px auto 32px;max-width:720px;text-align:center;color:rgba(31,41,51,.72);font-size:18px;line-height:1.7;">No more switching between Canvas, Notion, Google Calendar, sticky notes, and dozens of browser tabs.</p>
+            <div style="border:1px solid rgba(31,41,51,.1);border-radius:28px;background:white;box-shadow:0 24px 80px rgba(31,41,51,.12);padding:18px;">
+              <div style="display:grid;grid-template-columns:220px 1fr;gap:18px;">
+                <aside style="background:#EFF6F4;border-radius:22px;padding:16px;display:grid;gap:8px;font-size:14px;font-weight:700;color:rgba(31,41,51,.68);">
+                  <span style="background:white;color:#1F2933;border-radius:14px;padding:10px;">Computer Science</span>
+                  <span style="padding:10px;">Spanish</span><span style="padding:10px;">Research</span><span style="padding:10px;">Internship</span><span style="padding:10px;">Personal</span><span style="padding:10px;">Business</span><span style="padding:10px;">Finance</span>
+                </aside>
+                <div style="background:#FAF9F6;border-radius:22px;padding:18px;">
+                  <h3 style="margin:0 0 16px;">Computer Science</h3>
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;">
+                    <div style="background:white;border-radius:18px;padding:16px;"><b>Assignments</b><p>4 active tasks</p></div>
+                    <div style="background:white;border-radius:18px;padding:16px;"><b>Projects</b><p>2 milestones</p></div>
+                    <div style="background:white;border-radius:18px;padding:16px;"><b>Notes</b><p>12 saved notes</p></div>
+                    <div style="background:white;border-radius:18px;padding:16px;"><b>Upcoming Exams</b><p>Midterm plan</p></div>
+                    <div style="background:white;border-radius:18px;padding:16px;"><b>Resources</b><p>Links and files</p></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section style="padding-top:78px;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;align-items:end;margin-bottom:28px;">
+              <div>
+                <p style="margin:0 0 14px;color:#DF8F7D;font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;">AI Prioritization</p>
+                <h2 style="margin:0;font-size:clamp(32px,5vw,46px);line-height:1.05;letter-spacing:-.03em;">Know what to do first, and why.</h2>
+              </div>
+              <div style="border:1px solid rgba(223,143,125,.25);border-radius:22px;background:white;box-shadow:0 16px 38px rgba(31,41,51,.08);padding:18px;">
+                <b>AI Assistant</b>
+                <p style="margin:10px 0 0;color:rgba(31,41,51,.72);font-size:14px;line-height:1.6;">"I moved your Operating Systems project before your Spanish homework because it's due tomorrow and requires 4 hours."</p>
+              </div>
+            </div>
+            <div style="border:1px solid rgba(31,41,51,.1);border-radius:28px;background:white;box-shadow:0 24px 80px rgba(31,41,51,.12);padding:18px;">
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;">
+                <section style="background:#FAF9F6;border-radius:22px;padding:14px;">
+                  <b>Today</b>
+                  <article style="margin-top:12px;background:white;border-radius:18px;padding:14px;box-shadow:0 16px 38px rgba(31,41,51,.08);">
+                    <p style="margin:0;font-weight:800;"><span style="display:inline-block;width:10px;height:10px;border-radius:99px;background:#DF8F7D;margin-right:8px;"></span>Operating Systems project</p>
+                    <p style="margin:10px 0 0;font-size:12px;color:rgba(31,41,51,.65);">4h | Due tomorrow | CS 3210 | AI 94%</p>
+                  </article>
+                  <article style="margin-top:12px;background:white;border-radius:18px;padding:14px;box-shadow:0 16px 38px rgba(31,41,51,.08);">
+                    <p style="margin:0;font-weight:800;"><span style="display:inline-block;width:10px;height:10px;border-radius:99px;background:#E9B872;margin-right:8px;"></span>Research summary</p>
+                    <p style="margin:10px 0 0;font-size:12px;color:rgba(31,41,51,.65);">45m | Due Fri | Research | AI 82%</p>
+                  </article>
+                </section>
+                <section style="background:#FAF9F6;border-radius:22px;padding:14px;">
+                  <b>This Week</b>
+                  <article style="margin-top:12px;background:white;border-radius:18px;padding:14px;box-shadow:0 16px 38px rgba(31,41,51,.08);">
+                    <p style="margin:0;font-weight:800;"><span style="display:inline-block;width:10px;height:10px;border-radius:99px;background:#AFC8AD;margin-right:8px;"></span>Spanish homework</p>
+                    <p style="margin:10px 0 0;font-size:12px;color:rgba(31,41,51,.65);">35m | Due Thu | Spanish | AI 88%</p>
+                  </article>
+                  <article style="margin-top:12px;background:white;border-radius:18px;padding:14px;box-shadow:0 16px 38px rgba(31,41,51,.08);">
+                    <p style="margin:0;font-weight:800;"><span style="display:inline-block;width:10px;height:10px;border-radius:99px;background:#1F2933;margin-right:8px;"></span>Internship cover letter</p>
+                    <p style="margin:10px 0 0;font-size:12px;color:rgba(31,41,51,.65);">1h | Due Sun | Internship | AI 79%</p>
+                  </article>
+                </section>
+                <section style="background:#FAF9F6;border-radius:22px;padding:14px;">
+                  <b>Upcoming</b>
+                  <article style="margin-top:12px;background:white;border-radius:18px;padding:14px;box-shadow:0 16px 38px rgba(31,41,51,.08);">
+                    <p style="margin:0;font-weight:800;"><span style="display:inline-block;width:10px;height:10px;border-radius:99px;background:#E9B872;margin-right:8px;"></span>Finance club deck</p>
+                    <p style="margin:10px 0 0;font-size:12px;color:rgba(31,41,51,.65);">2h | Next week | Business | AI 74%</p>
+                  </article>
+                </section>
+                <section style="background:#FAF9F6;border-radius:22px;padding:14px;">
+                  <b>Completed</b>
+                  <article style="margin-top:12px;background:white;border-radius:18px;padding:14px;box-shadow:0 16px 38px rgba(31,41,51,.08);">
+                    <p style="margin:0;font-weight:800;text-decoration:line-through;"><span style="display:inline-block;width:10px;height:10px;border-radius:99px;background:#AFC8AD;margin-right:8px;"></span>Pay credit card</p>
+                    <p style="margin:10px 0 0;font-size:12px;color:rgba(31,41,51,.65);">10m | Done | Finance | AI 99%</p>
+                  </article>
+                </section>
+              </div>
+            </div>
+          </section>
+          <section style="padding-top:78px;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;align-items:end;margin-bottom:28px;">
+              <div>
+                <p style="margin:0 0 14px;color:#DF8F7D;font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;">Smart Calendar</p>
+                <h2 style="margin:0;font-size:clamp(32px,5vw,46px);line-height:1.05;letter-spacing:-.03em;">Your day rearranges when priorities change.</h2>
+                <p style="margin:18px 0 0;color:rgba(31,41,51,.72);font-size:18px;line-height:1.7;">Automatic time blocks place study sessions, breaks, meetings, classes, gym, and sleep around the work that matters most.</p>
+              </div>
+              <div style="border:1px solid rgba(175,200,173,.45);border-radius:22px;background:white;box-shadow:0 16px 38px rgba(31,41,51,.08);padding:18px;">
+                <b>Calendar AI</b>
+                <p style="margin:10px 0 0;color:rgba(31,41,51,.72);font-size:14px;line-height:1.6;">Task deadline changed. AI moved the deep-work block earlier and protected your class, gym, break, and sleep windows.</p>
+              </div>
+            </div>
+            <div data-calendar-layout style="display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:16px;border:1px solid rgba(31,41,51,.1);border-radius:28px;background:white;box-shadow:0 24px 80px rgba(31,41,51,.12);padding:18px;">
+              <div style="background:#FAF9F6;border-radius:22px;padding:18px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid rgba(31,41,51,.1);padding-bottom:14px;margin-bottom:14px;">
+                  <div>
+                    <p style="margin:0;color:#DF8F7D;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;">Thursday schedule</p>
+                    <h3 style="margin:4px 0 0;font-size:22px;">Auto-planned calendar</h3>
+                  </div>
+                  <span style="background:white;border-radius:999px;padding:9px 12px;font-size:12px;font-weight:800;color:rgba(31,41,51,.62);box-shadow:0 16px 38px rgba(31,41,51,.08);">Rearranging after task update</span>
+                </div>
+                <div style="position:relative;min-height:450px;overflow:hidden;border:1px solid rgba(31,41,51,.1);border-radius:20px;background:repeating-linear-gradient(to bottom,#fff 0,#fff 63px,rgba(31,41,51,.08) 64px);padding:12px;">
+                  <div style="position:absolute;left:18px;right:18px;top:14px;height:42px;border-radius:16px;background:rgba(31,41,51,.1);padding:12px;font-size:13px;font-weight:800;color:rgba(31,41,51,.58);">7:00 Sleep <span style="float:right;">Recovery</span></div>
+                  <div style="position:absolute;left:18px;right:18px;top:70px;height:50px;border-radius:16px;background:rgba(175,200,173,.35);padding:12px;font-size:13px;font-weight:800;color:#24533f;">8:30 Gym <span style="float:right;">Personal</span></div>
+                  <div style="position:absolute;left:18px;right:18px;top:138px;height:58px;border-radius:16px;background:rgba(223,143,125,.2);padding:12px;font-size:13px;font-weight:800;color:#1F2933;">10:00 Operating Systems <span style="float:right;">Class</span></div>
+                  <div style="position:absolute;left:18px;right:18px;top:218px;height:42px;border-radius:16px;background:rgba(233,184,114,.25);padding:12px;font-size:13px;font-weight:800;color:#8a5b13;">12:00 Break <span style="float:right;">Reset</span></div>
+                  <div style="position:absolute;left:18px;right:18px;top:276px;height:82px;border-radius:16px;background:#DF8F7D;padding:12px;font-size:13px;font-weight:800;color:white;animation:calendar-shift 4.8s ease-in-out infinite;">1:00 Study session <span style="float:right;">Auto block</span></div>
+                  <div style="position:absolute;left:18px;right:18px;top:370px;height:58px;border-radius:16px;background:white;border:1px solid rgba(31,41,51,.1);padding:12px;font-size:13px;font-weight:800;color:#1F2933;">3:30 Research meeting <span style="float:right;">Meeting</span></div>
+                </div>
+              </div>
+              <aside style="background:#1F2933;color:white;border-radius:22px;padding:20px;">
+                <p style="margin:0;color:#DF8F7D;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;">Today's workload</p>
+                <div style="margin-top:20px;display:grid;gap:14px;">
+                  <div style="background:rgba(255,255,255,.1);border-radius:18px;padding:16px;"><p style="margin:0;color:rgba(255,255,255,.62);font-size:14px;">Focused work</p><b style="display:block;margin-top:8px;font-size:30px;">5.2h</b></div>
+                  <div style="background:rgba(255,255,255,.1);border-radius:18px;padding:16px;"><p style="margin:0;color:rgba(255,255,255,.62);font-size:14px;">Estimated completion time</p><b style="display:block;margin-top:8px;font-size:30px;">6:40 PM</b></div>
+                  <div style="background:rgba(255,255,255,.1);border-radius:18px;padding:16px;"><p style="margin:0;color:rgba(255,255,255,.62);font-size:14px;">Productivity score</p><b style="display:block;margin-top:8px;font-size:30px;">86</b><div style="height:8px;background:rgba(255,255,255,.15);border-radius:999px;margin-top:12px;"><div style="height:8px;width:86%;background:#DF8F7D;border-radius:999px;"></div></div></div>
+                </div>
+              </aside>
+            </div>
+          </section>
+          <section style="padding-top:78px;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:34px;align-items:center;">
+              <div>
+                <p style="margin:0 0 14px;color:#DF8F7D;font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;">AI Assistant</p>
+                <h2 style="margin:0;font-size:clamp(32px,5vw,46px);line-height:1.05;letter-spacing:-.03em;">Ask for help the way you would text a planner.</h2>
+                <p style="margin:18px 0 0;color:rgba(31,41,51,.72);font-size:18px;line-height:1.7;">Tell Second Brain AI what changed, what feels overwhelming, or what you need to finish. It turns that context into schedule changes, task breakdowns, and realistic next steps.</p>
+                <div style="margin-top:24px;display:flex;flex-wrap:wrap;gap:10px;">
+                  <button style="border:1px solid rgba(31,41,51,.1);background:white;border-radius:999px;padding:10px 14px;font-weight:800;color:#1F2933;box-shadow:0 16px 38px rgba(31,41,51,.08);">Plan My Week</button>
+                  <button style="border:1px solid rgba(31,41,51,.1);background:white;border-radius:999px;padding:10px 14px;font-weight:800;color:#1F2933;box-shadow:0 16px 38px rgba(31,41,51,.08);">Reschedule Today</button>
+                  <button style="border:1px solid rgba(31,41,51,.1);background:white;border-radius:999px;padding:10px 14px;font-weight:800;color:#1F2933;box-shadow:0 16px 38px rgba(31,41,51,.08);">Break Down Assignment</button>
+                  <button style="border:1px solid rgba(31,41,51,.1);background:white;border-radius:999px;padding:10px 14px;font-weight:800;color:#1F2933;box-shadow:0 16px 38px rgba(31,41,51,.08);">Find Free Time</button>
+                </div>
+              </div>
+              <div style="max-width:390px;margin:0 auto;width:100%;border:1px solid rgba(31,41,51,.12);border-radius:42px;background:#1F2933;padding:12px;box-shadow:0 24px 80px rgba(31,41,51,.12);">
+                <div style="border-radius:34px;background:#f6f7f8;padding:16px;">
+                  <div style="width:80px;height:6px;border-radius:999px;background:rgba(31,41,51,.2);margin:0 auto 16px;"></div>
+                  <div style="border-radius:26px;background:white;padding:16px;box-shadow:0 16px 38px rgba(31,41,51,.08);">
+                    <div style="display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(31,41,51,.1);padding-bottom:12px;">
+                      <span style="display:grid;place-items:center;width:40px;height:40px;border-radius:999px;background:#DF8F7D;color:white;font-weight:900;">AI</span>
+                      <div>
+                        <b>Second Brain AI</b>
+                        <p style="margin:2px 0 0;color:#24734f;font-size:12px;font-weight:800;">Online</p>
+                      </div>
+                    </div>
+                    <div style="margin-top:20px;display:grid;gap:14px;">
+                      <div style="justify-self:end;max-width:78%;border-radius:20px 20px 6px 20px;background:#1F2933;color:white;padding:12px 14px;font-size:14px;line-height:1.55;font-weight:650;">I have a Systems exam Friday.</div>
+                      <div style="justify-self:start;max-width:86%;border-radius:20px 20px 20px 6px;background:#EFF6F4;color:rgba(31,41,51,.78);padding:12px 14px;font-size:14px;line-height:1.55;font-weight:650;">I recommend beginning tonight. I've scheduled three review sessions and moved lower-priority tasks.</div>
+                      <div style="justify-self:start;max-width:82%;border-radius:20px 20px 20px 6px;background:#EFF6F4;color:rgba(31,41,51,.78);padding:12px 14px;font-size:14px;line-height:1.55;font-weight:650;">Your first block is 7:30 PM. I also saved a 45-minute recap session before class tomorrow.</div>
+                    </div>
+                    <div style="margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                      <button style="border:1px solid rgba(31,41,51,.1);background:white;border-radius:999px;padding:9px 8px;font-size:12px;font-weight:800;">Plan My Week</button>
+                      <button style="border:1px solid rgba(31,41,51,.1);background:white;border-radius:999px;padding:9px 8px;font-size:12px;font-weight:800;">Reschedule Today</button>
+                      <button style="border:1px solid rgba(31,41,51,.1);background:white;border-radius:999px;padding:9px 8px;font-size:12px;font-weight:800;">Break Down Assignment</button>
+                      <button style="border:1px solid rgba(31,41,51,.1);background:white;border-radius:999px;padding:9px 8px;font-size:12px;font-weight:800;">Find Free Time</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section style="padding-top:78px;">
+            <div style="max-width:760px;margin-bottom:28px;">
+              <p style="margin:0 0 14px;color:#DF8F7D;font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;">Progress Dashboard</p>
+              <h2 style="margin:0;font-size:clamp(32px,5vw,46px);line-height:1.05;letter-spacing:-.03em;">See the semester moving forward.</h2>
+              <p style="margin:18px 0 0;color:rgba(31,41,51,.72);font-size:18px;line-height:1.7;">Track completion, study time, streaks, assignments, deadlines, and course progress from one quiet dashboard.</p>
+            </div>
+            <div style="border:1px solid rgba(31,41,51,.1);border-radius:28px;background:white;box-shadow:0 24px 80px rgba(31,41,51,.12);padding:18px;">
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;">
+                <article style="background:#FAF9F6;border:1px solid rgba(31,41,51,.1);border-radius:22px;padding:18px;"><p style="margin:0;color:rgba(31,41,51,.55);font-weight:800;">Weekly completion</p><b style="display:block;margin-top:10px;font-size:32px;">78%</b><div style="height:8px;background:rgba(31,41,51,.1);border-radius:999px;margin-top:18px;overflow:hidden;"><div style="height:8px;width:78%;background:#DF8F7D;border-radius:999px;animation:graph-grow .9s ease-out both;transform-origin:left center;"></div></div></article>
+                <article style="background:#FAF9F6;border:1px solid rgba(31,41,51,.1);border-radius:22px;padding:18px;"><p style="margin:0;color:rgba(31,41,51,.55);font-weight:800;">Hours studied</p><b style="display:block;margin-top:10px;font-size:32px;">18.5h</b><div style="height:8px;background:rgba(31,41,51,.1);border-radius:999px;margin-top:18px;overflow:hidden;"><div style="height:8px;width:68%;background:#AFC8AD;border-radius:999px;animation:graph-grow .9s ease-out both;transform-origin:left center;"></div></div></article>
+                <article style="background:#FAF9F6;border:1px solid rgba(31,41,51,.1);border-radius:22px;padding:18px;"><p style="margin:0;color:rgba(31,41,51,.55);font-weight:800;">Current streak</p><b style="display:block;margin-top:10px;font-size:32px;">9 days</b><div style="height:8px;background:rgba(31,41,51,.1);border-radius:999px;margin-top:18px;overflow:hidden;"><div style="height:8px;width:86%;background:#E9B872;border-radius:999px;animation:graph-grow .9s ease-out both;transform-origin:left center;"></div></div></article>
+                <article style="background:#FAF9F6;border:1px solid rgba(31,41,51,.1);border-radius:22px;padding:18px;"><p style="margin:0;color:rgba(31,41,51,.55);font-weight:800;">Assignments completed</p><b style="display:block;margin-top:10px;font-size:32px;">24</b><div style="height:8px;background:rgba(31,41,51,.1);border-radius:999px;margin-top:18px;overflow:hidden;"><div style="height:8px;width:72%;background:#1F2933;border-radius:999px;animation:graph-grow .9s ease-out both;transform-origin:left center;"></div></div></article>
+                <article style="background:#FAF9F6;border:1px solid rgba(31,41,51,.1);border-radius:22px;padding:18px;"><p style="margin:0;color:rgba(31,41,51,.55);font-weight:800;">Upcoming deadlines</p><b style="display:block;margin-top:10px;font-size:32px;">6</b><div style="height:8px;background:rgba(31,41,51,.1);border-radius:999px;margin-top:18px;overflow:hidden;"><div style="height:8px;width:42%;background:#DF8F7D;border-radius:999px;animation:graph-grow .9s ease-out both;transform-origin:left center;"></div></div></article>
+                <article style="background:#FAF9F6;border:1px solid rgba(31,41,51,.1);border-radius:22px;padding:18px;"><p style="margin:0;color:rgba(31,41,51,.55);font-weight:800;">Course progress</p><b style="display:block;margin-top:10px;font-size:32px;">64%</b><div style="height:8px;background:rgba(31,41,51,.1);border-radius:999px;margin-top:18px;overflow:hidden;"><div style="height:8px;width:64%;background:#AFC8AD;border-radius:999px;animation:graph-grow .9s ease-out both;transform-origin:left center;"></div></div></article>
+              </div>
+              <div data-dashboard-layout style="margin-top:16px;display:grid;grid-template-columns:1.15fr .85fr;gap:16px;">
+                <div style="background:#EFF6F4;border-radius:22px;padding:18px;">
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;"><b>Weekly study rhythm</b><span style="background:white;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:800;color:rgba(31,41,51,.55);">Live trend</span></div>
+                  <div style="height:190px;display:flex;align-items:end;gap:10px;">
+                    <div style="flex:1;height:42%;background:#DF8F7D;border-radius:14px 14px 0 0;animation:bar-rise .9s ease-out both;transform-origin:bottom center;"></div>
+                    <div style="flex:1;height:64%;background:#DF8F7D;border-radius:14px 14px 0 0;animation:bar-rise .9s ease-out both;transform-origin:bottom center;"></div>
+                    <div style="flex:1;height:50%;background:#DF8F7D;border-radius:14px 14px 0 0;animation:bar-rise .9s ease-out both;transform-origin:bottom center;"></div>
+                    <div style="flex:1;height:82%;background:#DF8F7D;border-radius:14px 14px 0 0;animation:bar-rise .9s ease-out both;transform-origin:bottom center;"></div>
+                    <div style="flex:1;height:70%;background:#DF8F7D;border-radius:14px 14px 0 0;animation:bar-rise .9s ease-out both;transform-origin:bottom center;"></div>
+                    <div style="flex:1;height:92%;background:#DF8F7D;border-radius:14px 14px 0 0;animation:bar-rise .9s ease-out both;transform-origin:bottom center;"></div>
+                    <div style="flex:1;height:76%;background:#DF8F7D;border-radius:14px 14px 0 0;animation:bar-rise .9s ease-out both;transform-origin:bottom center;"></div>
+                  </div>
+                </div>
+                <div style="background:#1F2933;color:white;border-radius:22px;padding:18px;">
+                  <b>Course progress</b>
+                  <div style="margin-top:18px;display:grid;gap:14px;">
+                    <p style="margin:0;color:rgba(255,255,255,.7);">Operating Systems <span style="float:right;color:white;font-weight:800;">72%</span></p>
+                    <p style="margin:0;color:rgba(255,255,255,.7);">Spanish <span style="float:right;color:white;font-weight:800;">61%</span></p>
+                    <p style="margin:0;color:rgba(255,255,255,.7);">Research <span style="float:right;color:white;font-weight:800;">84%</span></p>
+                    <p style="margin:0;color:rgba(255,255,255,.7);">Finance <span style="float:right;color:white;font-weight:800;">46%</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+        <section id="how-it-works" data-page="how-it-works" style="max-width:1120px;margin:0 auto;padding:72px 24px;width:100%;box-sizing:border-box;">
+          <div style="max-width:760px;margin:0 auto;text-align:center;">
+            <p style="margin:0 0 14px;color:#DF8F7D;font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;">How It Works</p>
+            <h2 style="margin:0;font-size:clamp(38px,6vw,58px);line-height:1;letter-spacing:-.035em;">From overwhelmed to organized.</h2>
+            <p style="margin:20px auto 0;max-width:680px;color:rgba(31,41,51,.72);font-size:18px;line-height:1.65;">Second Brain AI turns your tasks into a clear, personalized plan - so you always know what to do next.</p>
+          </div>
+          <div style="margin-top:42px;">
+            <p style="margin:0;text-align:center;color:#DF8F7D;font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;">The Process</p>
+            <div style="position:relative;margin-top:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;">
+              <div data-process-line-horizontal style="position:absolute;left:8%;right:8%;top:24px;height:2px;background:rgba(31,41,51,.1);"></div>
+              <div data-process-line-vertical style="display:none;position:absolute;left:23px;top:0;bottom:0;width:2px;background:rgba(31,41,51,.1);"></div>
+              <article style="position:relative;background:white;border:1px solid rgba(31,41,51,.1);border-radius:26px;padding:20px;box-shadow:0 16px 38px rgba(31,41,51,.08);animation:fade-up .65s ease-out both;">
+                <div style="display:grid;place-items:center;width:46px;height:46px;border-radius:999px;background:#1F2933;color:white;font-weight:900;">1</div>
+                <div style="margin-top:18px;background:#EFF6F4;border-radius:18px;padding:14px;"><b style="font-size:24px;">Folder</b><div style="margin-top:12px;display:grid;gap:7px;font-size:12px;font-weight:800;color:rgba(31,41,51,.65);"><span>Classes</span><span>Assignments</span><span>Projects</span><span>Personal tasks</span></div></div>
+                <h3 style="margin:18px 0 0;font-size:20px;">Add Everything</h3>
+                <p style="margin:8px 0 0;color:rgba(31,41,51,.68);font-size:14px;line-height:1.55;">Bring everything into one organized workspace.</p>
+              </article>
+              <article style="position:relative;background:white;border:1px solid rgba(31,41,51,.1);border-radius:26px;padding:20px;box-shadow:0 16px 38px rgba(31,41,51,.08);animation:fade-up .65s ease-out .1s both;">
+                <div style="display:grid;place-items:center;width:46px;height:46px;border-radius:999px;background:#1F2933;color:white;font-weight:900;">2</div>
+                <div style="margin-top:18px;background:#EFF6F4;border-radius:18px;padding:14px;"><b style="font-size:24px;">AI</b><div style="margin-top:12px;display:grid;gap:7px;font-size:12px;font-weight:800;color:rgba(31,41,51,.65);"><span>Deadlines</span><span>Workload</span><span>Available time</span></div></div>
+                <h3 style="margin:18px 0 0;font-size:20px;">AI Builds Your Plan</h3>
+                <p style="margin:8px 0 0;color:rgba(31,41,51,.68);font-size:14px;line-height:1.55;">The AI prioritizes your work based on deadlines, workload, and available time.</p>
+              </article>
+              <article style="position:relative;background:white;border:1px solid rgba(31,41,51,.1);border-radius:26px;padding:20px;box-shadow:0 16px 38px rgba(31,41,51,.08);animation:fade-up .65s ease-out .2s both;">
+                <div style="display:grid;place-items:center;width:46px;height:46px;border-radius:999px;background:#1F2933;color:white;font-weight:900;">3</div>
+                <div style="margin-top:18px;background:#EFF6F4;border-radius:18px;padding:14px;"><b style="font-size:24px;">Calendar</b><div style="margin-top:12px;display:grid;gap:7px;font-size:12px;font-weight:800;color:rgba(31,41,51,.65);"><span>Study blocks</span><span>Classes</span><span>Breaks</span></div></div>
+                <h3 style="margin:18px 0 0;font-size:20px;">Follow Your Schedule</h3>
+                <p style="margin:8px 0 0;color:rgba(31,41,51,.68);font-size:14px;line-height:1.55;">Your tasks are scheduled into realistic time blocks that adapt when plans change.</p>
+              </article>
+              <article style="position:relative;background:white;border:1px solid rgba(31,41,51,.1);border-radius:26px;padding:20px;box-shadow:0 16px 38px rgba(31,41,51,.08);animation:fade-up .65s ease-out .3s both;">
+                <div style="display:grid;place-items:center;width:46px;height:46px;border-radius:999px;background:#1F2933;color:white;font-weight:900;">4</div>
+                <div style="margin-top:18px;background:#EFF6F4;border-radius:18px;padding:14px;"><b style="font-size:24px;">Done</b><div style="margin-top:12px;display:grid;gap:7px;font-size:12px;font-weight:800;color:rgba(31,41,51,.65);"><span>To Do</span><span>In Progress</span><span>Completed</span></div></div>
+                <h3 style="margin:18px 0 0;font-size:20px;">Get Things Done</h3>
+                <p style="margin:8px 0 0;color:rgba(31,41,51,.68);font-size:14px;line-height:1.55;">Stay focused, track your progress, and keep moving forward.</p>
+              </article>
+            </div>
+          </div>
+          <div style="margin-top:38px;">
+            <p style="margin:0;text-align:center;color:#DF8F7D;font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;">Quick Benefits</p>
+            <div style="margin-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;">
+              <div style="background:white;border:1px solid rgba(31,41,51,.1);border-radius:18px;padding:16px;font-weight:900;box-shadow:0 16px 38px rgba(31,41,51,.08);">Check Less planning</div>
+              <div style="background:white;border:1px solid rgba(31,41,51,.1);border-radius:18px;padding:16px;font-weight:900;box-shadow:0 16px 38px rgba(31,41,51,.08);">Check Better focus</div>
+              <div style="background:white;border:1px solid rgba(31,41,51,.1);border-radius:18px;padding:16px;font-weight:900;box-shadow:0 16px 38px rgba(31,41,51,.08);">Check Smarter scheduling</div>
+              <div style="background:white;border:1px solid rgba(31,41,51,.1);border-radius:18px;padding:16px;font-weight:900;box-shadow:0 16px 38px rgba(31,41,51,.08);">Check More completed work</div>
+            </div>
+          </div>
+          <div style="margin-top:38px;background:#1F2933;color:white;border-radius:30px;text-align:center;padding:40px 24px;box-shadow:0 24px 80px rgba(31,41,51,.12);">
+            <h2 style="margin:0;font-size:clamp(28px,4vw,42px);line-height:1.1;letter-spacing:-.03em;">Your next study session already has a plan.</h2>
+            <div style="margin-top:24px;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSejWYEeODBE0gQe-dpaemBbTqjJF4OrKRfp23SkW63mmdutQw/viewform?usp=header" target="_blank" rel="noreferrer" style="background:#DF8F7D;color:white;text-decoration:none;border-radius:999px;padding:13px 22px;font-weight:900;">Join Waitlist</a>
+              <a href="#live-demo" style="border:1px solid rgba(255,255,255,.25);color:white;text-decoration:none;border-radius:999px;padding:13px 22px;font-weight:900;">See the Demo</a>
+            </div>
+          </div>
+        </section>
+        <section id="science" data-page="science" style="max-width:1120px;margin:0 auto;padding:72px 24px;width:100%;box-sizing:border-box;">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:34px;align-items:center;">
+            <div>
+              <p style="margin:0 0 14px;color:#DF8F7D;font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;">The Science</p>
+              <h2 style="margin:0;font-size:clamp(36px,6vw,56px);line-height:1;letter-spacing:-.035em;">Built Around How Your Brain Actually Works.</h2>
+              <p style="margin:20px 0 0;color:rgba(31,41,51,.72);font-size:18px;line-height:1.65;">Second Brain AI is not just another task manager. Every feature is designed around research in attention, executive function, motivation, and habit formation.</p>
+            </div>
+            <div style="background:white;border:1px solid rgba(31,41,51,.1);border-radius:30px;padding:26px;box-shadow:0 24px 80px rgba(31,41,51,.12);">
+              <div style="display:flex;align-items:center;gap:18px;">
+                <div style="display:grid;place-items:center;width:98px;height:98px;border-radius:28px;background:rgba(223,143,125,.15);color:#DF8F7D;font-size:34px;font-weight:900;animation:icon-float 3.4s ease-in-out infinite;">Brain</div>
+                <div style="height:2px;flex:1;background:rgba(31,41,51,.12);"></div>
+                <div style="display:grid;gap:10px;font-size:14px;font-weight:900;">
+                  <span style="background:#EFF6F4;border-radius:16px;padding:12px 16px;">Tasks</span>
+                  <span style="background:#EFF6F4;border-radius:16px;padding:12px 16px;">Calendar events</span>
+                  <span style="background:#EFF6F4;border-radius:16px;padding:12px 16px;">Reminders</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="position:relative;margin-top:44px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;">
+            <div style="position:absolute;left:50%;top:20px;bottom:20px;width:2px;background:rgba(31,41,51,.1);"></div>
+            <article style="position:relative;background:white;border:1px solid rgba(31,41,51,.1);border-radius:26px;padding:22px;box-shadow:0 16px 38px rgba(31,41,51,.08);animation:fade-up .65s ease-out both;">
+              <p style="margin:0;color:#DF8F7D;font-size:12px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;">Reduce Cognitive Load</p>
+              <h3 style="margin:10px 0 0;font-size:24px;">Remember Less</h3>
+              <p style="margin:12px 0 0;color:rgba(31,41,51,.7);font-size:14px;line-height:1.6;">Your brain was not designed to remember every assignment, meeting, deadline, and idea. Store it once, then focus on doing the work.</p>
+              <div style="margin-top:18px;background:#EFF6F4;border-radius:18px;padding:14px;font-size:13px;font-weight:900;">Brain -> Second Brain AI -> Organized tasks</div>
+            </article>
+            <article style="position:relative;background:white;border:1px solid rgba(31,41,51,.1);border-radius:26px;padding:22px;box-shadow:0 16px 38px rgba(31,41,51,.08);animation:fade-up .65s ease-out .1s both;">
+              <p style="margin:0;color:#DF8F7D;font-size:12px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;">Reduce Decision Fatigue</p>
+              <h3 style="margin:10px 0 0;font-size:24px;">Know What To Do Next</h3>
+              <p style="margin:12px 0 0;color:rgba(31,41,51,.7);font-size:14px;line-height:1.6;">Too many choices often lead to procrastination. The AI highlights the highest-impact task so you can start immediately.</p>
+              <div style="margin-top:18px;background:#EFF6F4;border-radius:18px;padding:14px;font-size:13px;font-weight:900;">Long task list -> AI -> One highlighted task</div>
+            </article>
+            <article style="position:relative;background:white;border:1px solid rgba(31,41,51,.1);border-radius:26px;padding:22px;box-shadow:0 16px 38px rgba(31,41,51,.08);animation:fade-up .65s ease-out .2s both;">
+              <p style="margin:0;color:#DF8F7D;font-size:12px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;">Break Down Overwhelming Work</p>
+              <h3 style="margin:10px 0 0;font-size:24px;">Small Steps Beat Big Tasks</h3>
+              <p style="margin:12px 0 0;color:rgba(31,41,51,.7);font-size:14px;line-height:1.6;">Large assignments feel difficult to start. Second Brain AI turns complex work into smaller actions that are easier to finish.</p>
+              <div style="margin-top:18px;background:#EFF6F4;border-radius:18px;padding:14px;font-size:13px;font-weight:900;">Research Paper -> Research -> Outline -> Draft -> Edit -> Submit</div>
+            </article>
+            <article style="position:relative;background:white;border:1px solid rgba(31,41,51,.1);border-radius:26px;padding:22px;box-shadow:0 16px 38px rgba(31,41,51,.08);animation:fade-up .65s ease-out .3s both;">
+              <p style="margin:0;color:#DF8F7D;font-size:12px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;">Build Consistency</p>
+              <h3 style="margin:10px 0 0;font-size:24px;">Plans That Adapt</h3>
+              <p style="margin:12px 0 0;color:rgba(31,41,51,.7);font-size:14px;line-height:1.6;">Life changes. When your schedule changes, your plan adjusts so one missed day does not break the whole week.</p>
+              <div style="margin-top:18px;background:#EFF6F4;border-radius:18px;padding:14px;font-size:13px;font-weight:900;">Calendar -> Shift study blocks -> Stay on track</div>
+            </article>
+          </div>
+          <div style="margin-top:34px;background:white;border:1px solid rgba(223,143,125,.25);border-radius:28px;padding:26px;box-shadow:0 16px 38px rgba(31,41,51,.08);">
+            <p style="margin:0;color:#DF8F7D;font-size:13px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;">Inspired by Research</p>
+            <h3 style="margin:12px 0 0;font-size:28px;">Productivity should feel easier to begin.</h3>
+            <p style="margin:14px 0 0;color:rgba(31,41,51,.72);font-size:16px;line-height:1.65;">Our design is informed by established research in cognitive psychology, behavioral science, executive function, motivation, and habit formation. We believe productivity is not about working harder - it is about reducing the mental effort required to begin.</p>
+            <button style="margin-top:18px;border:1px solid rgba(31,41,51,.1);background:#EFF6F4;border-radius:999px;padding:10px 18px;font-weight:900;color:#1F2933;">Learn More</button>
+          </div>
+          <div style="margin-top:34px;background:#1F2933;color:white;border-radius:30px;text-align:center;padding:40px 24px;box-shadow:0 24px 80px rgba(31,41,51,.12);">
+            <h2 style="margin:0;font-size:clamp(28px,4vw,42px);line-height:1.1;letter-spacing:-.03em;">Technology should work with your brain - not against it.</h2>
+            <a href="#platform" style="display:inline-block;margin-top:24px;background:#DF8F7D;color:white;text-decoration:none;border-radius:999px;padding:13px 22px;font-weight:900;">See the Platform</a>
+          </div>
+        </section>
+        <section id="live-demo" data-page="live-demo" style="background:#1F2933;color:white;padding:56px 24px;position:relative;overflow-x:hidden;width:100%;box-sizing:border-box;">
+          <div style="position:absolute;inset:0;background:radial-gradient(circle at 18% 10%,rgba(223,143,125,.28),transparent 30%),radial-gradient(circle at 90% 20%,rgba(175,200,173,.18),transparent 32%);"></div>
+          <div style="position:relative;max-width:1180px;margin:0 auto;">
+            <div style="text-align:center;max-width:760px;margin:0 auto;">
+              <p style="margin:0 0 14px;color:#DF8F7D;font-size:13px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;">Live Demo</p>
+              <h2 style="margin:0;font-size:clamp(36px,6vw,58px);line-height:1;letter-spacing:-.035em;">Watch your school life organize itself.</h2>
+              <p style="margin:18px auto 0;max-width:680px;color:rgba(255,255,255,.68);font-size:17px;line-height:1.65;">A guided walkthrough of how Second Brain AI turns scattered tasks into a clear plan.</p>
+            </div>
+            <div style="position:relative;margin-top:32px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.08);border-radius:34px;padding:18px;box-shadow:0 24px 80px rgba(0,0,0,.22);">
+              <div style="position:absolute;z-index:5;animation:cursor-walk 21.6s ease-in-out infinite;">
+                <span style="position:absolute;left:-8px;top:-8px;width:28px;height:28px;border-radius:999px;background:rgba(223,143,125,.28);animation:cursor-click 1.2s ease-out infinite;"></span>
+                <div style="width:0;height:0;border-left:18px solid white;border-top:12px solid transparent;border-bottom:12px solid transparent;filter:drop-shadow(0 10px 14px rgba(0,0,0,.35));transform:rotate(35deg);"></div>
+              </div>
+              <div style="position:absolute;left:32px;top:32px;max-width:310px;background:rgba(31,41,51,.92);border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:16px;box-shadow:0 24px 80px rgba(0,0,0,.22);">
+                <p style="margin:0;color:#DF8F7D;font-size:11px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;">Why it matters</p>
+                <h3 style="margin:8px 0 0;">AI Prioritizes</h3>
+                <p style="margin:8px 0 0;color:rgba(255,255,255,.7);font-size:14px;line-height:1.5;">Instead of choosing from 30 tasks, the AI tells you what matters most right now.</p>
+              </div>
+              <div style="display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:18px;padding-top:118px;">
+                <div style="background:rgba(255,255,255,.94);color:#1F2933;border-radius:30px;padding:18px;box-shadow:0 24px 80px rgba(0,0,0,.22);">
+                  <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(31,41,51,.1);padding-bottom:14px;margin-bottom:14px;">
+                    <div><p style="margin:0;color:#DF8F7D;font-size:12px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;">Second Brain AI</p><b>Semester workspace</b></div>
+                    <span style="background:#EFF6F4;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:900;color:rgba(31,41,51,.62);">Auto running</span>
+                  </div>
+                  <div style="display:grid;grid-template-columns:150px 1fr 170px;gap:12px;">
+                    <aside style="background:#EFF6F4;border-radius:20px;padding:12px;">
+                      <b style="font-size:12px;color:rgba(31,41,51,.5);text-transform:uppercase;">Folders</b>
+                      <div style="display:grid;gap:8px;margin-top:12px;font-size:13px;font-weight:900;">
+                        <span style="background:white;border-radius:14px;padding:10px;">Computer Science</span>
+                        <span style="background:white;border-radius:14px;padding:10px;">Spanish</span>
+                        <span style="background:white;border-radius:14px;padding:10px;">Internship</span>
+                        <span style="background:white;border-radius:14px;padding:10px;">Business</span>
+                        <span style="background:white;border-radius:14px;padding:10px;">Personal</span>
+                      </div>
+                    </aside>
+                    <main style="background:#FAF9F6;border-radius:20px;padding:12px;">
+                      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+                        <section style="background:white;border-radius:18px;padding:12px;"><b>Today</b><p style="border:1px solid #DF8F7D;background:rgba(223,143,125,.12);border-radius:14px;padding:10px;font-weight:900;font-size:13px;animation:demo-pulse 3s ease-in-out infinite;">Finish Systems Lab<br><span style="font-size:11px;color:#DF8F7D;">Top priority</span></p></section>
+                        <section style="background:white;border-radius:18px;padding:12px;"><b>This Week</b><p style="background:#EFF6F4;border-radius:14px;padding:10px;font-weight:900;font-size:13px;">Spanish vocab</p><p style="background:#EFF6F4;border-radius:14px;padding:10px;font-weight:900;font-size:13px;">Amazon internship</p></section>
+                        <section style="background:white;border-radius:18px;padding:12px;"><b>Completed</b><p style="background:rgba(175,200,173,.28);border-radius:14px;padding:10px;font-weight:900;font-size:13px;text-decoration:line-through;">Systems Lab</p></section>
+                      </div>
+                    </main>
+                    <aside style="display:grid;gap:10px;">
+                      <div style="background:white;border:1px solid rgba(31,41,51,.1);border-radius:18px;padding:12px;"><b>AI Assistant</b><p style="font-size:12px;color:rgba(31,41,51,.65);line-height:1.5;">Systems Lab is due soon. I moved it first.</p></div>
+                      <div style="background:white;border:1px solid rgba(31,41,51,.1);border-radius:18px;padding:12px;"><b>Calendar</b><p style="font-size:12px;color:rgba(31,41,51,.65);line-height:1.6;">9:00 AM Class<br>11:00 AM Systems Lab<br>2:00 PM Spanish Review<br>5:30 PM Internship Work</p></div>
+                    </aside>
+                  </div>
+                </div>
+                <div style="align-self:end;background:#111827;border:1px solid rgba(255,255,255,.14);border-radius:38px;padding:12px;box-shadow:0 24px 80px rgba(0,0,0,.3);">
+                  <div style="background:#f7f7f4;color:#1F2933;border-radius:30px;padding:16px;">
+                    <div style="width:66px;height:6px;background:rgba(31,41,51,.2);border-radius:999px;margin:0 auto 16px;"></div>
+                    <b>Today's plan</b>
+                    <div style="margin-top:14px;background:#1F2933;color:white;border-radius:18px;padding:14px;"><p style="margin:0;color:rgba(255,255,255,.65);font-size:12px;">Current focus</p><b data-demo-focus-title>Systems Lab</b><p data-demo-focus-copy style="margin:4px 0 0;font-size:12px;color:rgba(255,255,255,.65);">45 min focus block</p></div>
+                    <div style="margin-top:12px;background:white;border:1px solid rgba(223,143,125,.25);border-radius:18px;padding:12px;"><b style="color:#DF8F7D;font-size:12px;">Text reminders</b><div data-demo-message-thread style="display:grid;gap:8px;margin-top:10px;"><div data-demo-message-old style="background:#EFF6F4;border-radius:16px;padding:9px;font-size:11px;line-height:1.45;color:rgba(31,41,51,.7);">Workspace ready.</div><div data-demo-message-new style="margin-left:18px;background:#DF8F7D;color:white;border-radius:16px;padding:9px;font-size:11px;line-height:1.45;font-weight:900;">Start Systems Lab now - 45 min focus block.</div></div></div>
+                    <div style="display:grid;gap:8px;margin-top:12px;"><button data-demo-mobile-action="focus" style="border:0;background:#EFF6F4;border-radius:999px;padding:9px;font-weight:900;cursor:pointer;">Start Focus</button><button data-demo-mobile-action="snooze" style="border:0;background:#EFF6F4;border-radius:999px;padding:9px;font-weight:900;cursor:pointer;">Snooze 15 min</button><button data-demo-mobile-action="reschedule" style="border:0;background:#EFF6F4;border-radius:999px;padding:9px;font-weight:900;cursor:pointer;">Reschedule</button></div>
+                    <div data-demo-mobile-status style="margin-top:10px;background:rgba(175,200,173,.28);border-radius:16px;padding:9px;font-size:12px;font-weight:900;color:#24533f;">Ready when you are</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="margin-top:18px;">
+              <div style="height:8px;background:rgba(255,255,255,.12);border-radius:999px;overflow:hidden;"><div data-demo-progress style="height:8px;width:0%;background:#DF8F7D;border-radius:999px;transition:width .35s ease;"></div></div>
+              <div style="margin-top:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;font-size:12px;font-weight:900;">
+                <span data-demo-step="0" style="display:block;background:#DF8F7D;color:white;border-radius:14px;padding:10px;font-weight:900;">1 Add Classes</span>
+                <span data-demo-step="1" style="display:block;background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);border-radius:14px;padding:10px;font-weight:900;">2 Capture Tasks</span>
+                <span data-demo-step="2" style="display:block;background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);border-radius:14px;padding:10px;font-weight:900;">3 AI Prioritizes</span>
+                <span data-demo-step="3" style="display:block;background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);border-radius:14px;padding:10px;font-weight:900;">4 Auto-Schedule</span>
+                <span data-demo-step="4" style="display:block;background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);border-radius:14px;padding:10px;font-weight:900;">5 Mobile Check-In</span>
+                <span data-demo-step="5" style="display:block;background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);border-radius:14px;padding:10px;font-weight:900;">6 Complete</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <script>
+      (function () {
+        var pages = ["top", "platform", "how-it-works", "science", "live-demo"];
+        var activeStyles = {
+          background: "#DF8F7D",
+          color: "#fff",
+          boxShadow: "0 12px 28px rgba(223,143,125,.24)"
+        };
+        var inactiveStyles = {
+          background: "transparent",
+          color: "rgba(31,41,51,.68)",
+          boxShadow: "none"
+        };
+
+        function normalizePage(page) {
+          return pages.indexOf(page) >= 0 ? page : "top";
+        }
+
+        function applyLinkState(activePage) {
+          document.querySelectorAll("[data-page-link]").forEach(function (link) {
+            var isActive = link.getAttribute("data-page-link") === activePage;
+            var styles = isActive ? activeStyles : inactiveStyles;
+            Object.keys(styles).forEach(function (key) {
+              link.style[key] = styles[key];
+            });
+            if (isActive) {
+              link.setAttribute("aria-current", "page");
+            } else {
+              link.removeAttribute("aria-current");
+            }
+          });
+        }
+
+        function showPage(page) {
+          var activePage = normalizePage(page);
+          pages.forEach(function (pageId) {
+            var pageElement = document.getElementById(pageId);
+            if (!pageElement) return;
+            pageElement.style.display = pageId === activePage ? (pageId === "top" ? "grid" : "block") : "none";
+            if (pageId === activePage) {
+              window.scrollTo({ top: 0, behavior: "auto" });
+            }
+          });
+
+          applyLinkState(activePage);
+        }
+
+        document.addEventListener("click", function (event) {
+          var link = event.target.closest("[data-page-link]");
+          if (!link) return;
+          event.preventDefault();
+          var nextPage = normalizePage(link.getAttribute("data-page-link"));
+          if (window.location.hash !== "#" + nextPage) {
+            window.history.pushState(null, "", "#" + nextPage);
+          }
+          showPage(nextPage);
+        });
+
+        window.addEventListener("hashchange", function () {
+          showPage(window.location.hash.replace("#", ""));
+        });
+        window.addEventListener("popstate", function () {
+          showPage(window.location.hash.replace("#", ""));
+        });
+
+        showPage(window.location.hash.replace("#", ""));
+      })();
+      (function () {
+        var demoSteps = [
+          "Add Your Classes",
+          "Capture Tasks",
+          "AI Prioritizes",
+          "Auto-Schedule",
+          "Mobile Check-In",
+          "Complete & Adapt"
+        ];
+        var currentStep = 0;
+        var timer = null;
+        var phoneMessages = [
+          "Computer Science folder is set. Add tasks whenever they come up.",
+          "New task saved: Read chapter 8. I will place it in your plan.",
+          "Finish Systems Lab first. It is due soon and needs your longest block.",
+          "I blocked 11:00 AM for Systems Lab and moved Spanish review to 2:00 PM.",
+          "Start Systems Lab now - 45 min focus block.",
+          "Systems Lab complete. Your evening calendar has been adjusted."
+        ];
+
+        function updateDemo() {
+          var progress = document.querySelector("[data-demo-progress]");
+          if (progress) {
+            progress.style.width = ((currentStep + 1) / demoSteps.length) * 100 + "%";
+          }
+
+          document.querySelectorAll("[data-demo-step]").forEach(function (button) {
+            var isActive = Number(button.getAttribute("data-demo-step")) === currentStep;
+            button.style.background = isActive ? "#DF8F7D" : "rgba(255,255,255,.1)";
+            button.style.color = isActive ? "#fff" : "rgba(255,255,255,.7)";
+          });
+
+          var focusTitle = document.querySelector("[data-demo-focus-title]");
+          var focusCopy = document.querySelector("[data-demo-focus-copy]");
+          if (focusTitle && focusCopy) {
+            focusTitle.textContent = currentStep === demoSteps.length - 1 ? "Systems Lab complete" : "Systems Lab";
+            focusCopy.textContent = currentStep === demoSteps.length - 1 ? "Calendar adjusted" : "45 min focus block";
+          }
+
+          var oldMessage = document.querySelector("[data-demo-message-old]");
+          var newMessage = document.querySelector("[data-demo-message-new]");
+          if (oldMessage && newMessage) {
+            oldMessage.textContent = phoneMessages[Math.max(0, currentStep - 1)];
+            newMessage.textContent = phoneMessages[currentStep];
+          }
+        }
+
+        function startTimer() {
+          if (timer) window.clearInterval(timer);
+          timer = window.setInterval(function () {
+            currentStep = (currentStep + 1) % demoSteps.length;
+            updateDemo();
+          }, 3600);
+        }
+
+        document.addEventListener("click", function (event) {
+          var mobileAction = event.target.closest("[data-demo-mobile-action]");
+          if (mobileAction) {
+            var action = mobileAction.getAttribute("data-demo-mobile-action");
+            var mobileStatus = document.querySelector("[data-demo-mobile-status]");
+            if (action === "focus") {
+              currentStep = 5;
+              if (mobileStatus) mobileStatus.textContent = "Focus timer started";
+            }
+            if (action === "snooze") {
+              currentStep = 4;
+              if (mobileStatus) mobileStatus.textContent = "Reminder snoozed for 15 min";
+            }
+            if (action === "reschedule") {
+              currentStep = 3;
+              if (mobileStatus) mobileStatus.textContent = "Calendar adjusted";
+            }
+            updateDemo();
+            startTimer();
+          }
+        });
+
+        updateDemo();
+        startTimer();
+      })();
+    </script>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
