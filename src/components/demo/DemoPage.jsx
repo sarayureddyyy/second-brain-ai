@@ -64,8 +64,8 @@ const cursorPositions = [
   { left: "10%", top: "28%", label: "Open CS folder" },
   { left: "34%", top: "20%", label: "Add task" },
   { left: "47%", top: "40%", label: "Prioritize" },
-  { left: "80%", top: "54%", label: "Schedule" },
-  { left: "90%", top: "70%", label: "Start Focus" },
+  { left: "78%", top: "54%", label: "Schedule", align: "right" },
+  { left: "88%", top: "70%", label: "Start Focus", align: "right" },
   { left: "55%", top: "57%", label: "Complete" },
 ];
 
@@ -114,9 +114,9 @@ function DesktopMockup({ step }) {
         Later: ["Pay credit card"],
       }
     : {
-        Inbox: tasks,
-        Planning: [],
-        Completed: [],
+        Inbox: tasks.slice(0, 2),
+        Planning: tasks.slice(2, 4),
+        Completed: tasks.slice(4),
       };
 
   return (
@@ -165,7 +165,7 @@ function DesktopMockup({ step }) {
         <div className="rounded-[1.25rem] bg-[#fbfaf7] p-3">
           <div className="grid gap-3 md:grid-cols-3">
             {Object.entries(columns).map(([column, columnTasks]) => (
-              <section key={column} className="min-h-64 rounded-2xl bg-white/75 p-3">
+              <section key={column} className="h-72 overflow-hidden rounded-2xl bg-white/75 p-3">
                 <div className="mb-3 flex items-center justify-between">
                   <p className="text-xs font-bold text-ink/55">{column}</p>
                   <span className="h-2 w-2 rounded-full bg-sage" />
@@ -245,7 +245,7 @@ function DesktopMockup({ step }) {
 function MobileMockup({ step }) {
   const mobileFocus = step >= 4;
   const done = step >= 5;
-  const visibleMessages = phoneMessages.slice(Math.max(0, step - 2), step + 1);
+  const currentMessage = phoneMessages[step];
 
   return (
     <div
@@ -266,26 +266,16 @@ function MobileMockup({ step }) {
         </div>
         <div className="mt-3 rounded-2xl border border-coral/20 bg-white p-3 shadow-sm">
           <p className="text-xs font-bold text-coral">Text reminders</p>
-          <div className="mt-3 space-y-2">
-            {visibleMessages.map((message, index) => {
-              const isLatest = index === visibleMessages.length - 1;
-              return (
-                <div
-                  key={`${step}-${message.label}`}
-                  className={`animate-fade-up rounded-2xl px-3 py-2 text-xs leading-5 transition ${
-                    isLatest
-                      ? "ml-4 bg-coral text-white shadow-card"
-                      : "mr-4 bg-mist text-ink/70"
-                  }`}
-                  style={{ animationDelay: `${index * 90}ms` }}
-                >
-                  <span className="block text-[10px] font-bold uppercase tracking-[0.12em] opacity-70">
-                    {message.label}
-                  </span>
-                  {message.text}
-                </div>
-              );
-            })}
+          <div className="mt-3 flex min-h-[9.25rem] items-start">
+            <div
+              key={currentMessage.label}
+              className="ml-4 animate-fade-up rounded-2xl bg-coral px-3 py-2 text-xs leading-5 text-white shadow-card"
+            >
+              <span className="block text-[10px] font-bold uppercase tracking-[0.12em] opacity-70">
+                {currentMessage.label}
+              </span>
+              {currentMessage.text}
+            </div>
           </div>
         </div>
         <div className="mt-3 grid gap-2">
@@ -314,6 +304,7 @@ function MobileMockup({ step }) {
 
 function DemoCursor({ step }) {
   const position = cursorPositions[step] || cursorPositions[0];
+  const alignRight = position.align === "right";
 
   return (
     <div
@@ -328,7 +319,11 @@ function DemoCursor({ step }) {
           fill="white"
           stroke="#1F2933"
         />
-        <span className="absolute left-7 top-6 whitespace-nowrap rounded-full bg-ink px-3 py-1.5 text-[11px] font-bold text-white shadow-card">
+        <span
+          className={`absolute top-6 whitespace-nowrap rounded-full bg-ink px-3 py-1.5 text-[11px] font-bold text-white shadow-card ${
+            alignRight ? "right-3" : "left-7"
+          }`}
+        >
           {position.label}
         </span>
       </div>
@@ -339,12 +334,14 @@ function DemoCursor({ step }) {
 function DemoPopup({ step }) {
   const current = demoSteps[step];
   return (
-    <div className="absolute left-4 top-4 max-w-xs rounded-2xl border border-white/15 bg-ink/92 p-4 text-white shadow-soft backdrop-blur md:left-8 md:top-8">
-      <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-coral">
-        Why it matters
-      </p>
-      <h3 className="mt-2 font-bold">{current.popupTitle}</h3>
-      <p className="mt-2 text-sm leading-5 text-white/70">{current.popup}</p>
+    <div className="relative z-20 grid min-h-28 gap-3 rounded-2xl border border-white/15 bg-ink/92 p-4 text-white shadow-soft backdrop-blur md:grid-cols-[13rem_1fr] md:items-center md:px-5">
+      <div>
+        <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-coral">
+          Why it matters
+        </p>
+        <h3 className="mt-2 font-bold">{current.popupTitle}</h3>
+      </div>
+      <p className="text-sm leading-6 text-white/70">{current.popup}</p>
     </div>
   );
 }
@@ -387,10 +384,12 @@ function DemoStage({ step }) {
   return (
     <div className="relative mx-auto mt-8 max-w-6xl rounded-[2.25rem] border border-white/10 bg-white/8 p-4 shadow-soft backdrop-blur">
       <DemoPopup step={step} />
-      <DemoCursor step={step} />
-      <div className="grid gap-4 pt-36 lg:grid-cols-[1fr_16rem] lg:items-end lg:pt-20">
-        <DesktopMockup step={step} />
-        <MobileMockup step={step} />
+      <div className="relative mt-4">
+        <DemoCursor step={step} />
+        <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_16rem] lg:items-end">
+          <DesktopMockup step={step} />
+          <MobileMockup step={step} />
+        </div>
       </div>
     </div>
   );
