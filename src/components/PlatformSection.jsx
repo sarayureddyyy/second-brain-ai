@@ -2,11 +2,9 @@ import {
   ArrowRight,
   Bot,
   CalendarDays,
-  CheckCircle2,
   Clock3,
   FileText,
   Folder,
-  Plus,
   Sparkles,
 } from "lucide-react";
 import BoardPreview from "./BoardPreview.jsx";
@@ -95,34 +93,6 @@ const priorityColumns = [
   },
 ];
 
-function CalendarMini() {
-  return (
-    <div className="rounded-[1.25rem] border border-ink/10 bg-white p-4 shadow-card">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 text-sm font-bold text-ink">
-          <CalendarDays size={16} className="text-coral" />
-          Today
-        </div>
-        <span className="text-xs font-semibold text-ink/45">Apr 18</span>
-      </div>
-      <div className="mt-4 space-y-3">
-        {[
-          ["9:00", "Systems Lab"],
-          ["1:30", "Spanish vocab"],
-          ["4:00", "Internship draft"],
-        ].map(([time, event]) => (
-          <div key={event} className="grid grid-cols-[2.6rem_1fr] gap-3 text-xs">
-            <span className="font-semibold text-ink/45">{time}</span>
-            <span className="rounded-xl bg-mist px-3 py-2 font-semibold text-ink/70">
-              {event}
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 function AiPanel({ compact = false }) {
   return (
     <div className={`rounded-[1.25rem] border border-coral/20 bg-white p-4 shadow-card ${compact ? "" : "lg:absolute lg:-right-4 lg:bottom-8 lg:w-72"}`}>
@@ -148,24 +118,25 @@ function AiPanel({ compact = false }) {
 
 function DashboardMockup() {
   return (
-    <div className="relative rounded-[2rem] border border-ink/10 bg-white p-4 shadow-soft">
+    <div className="rounded-[2rem] border border-ink/10 bg-white p-4 shadow-soft">
       <div className="mb-4 flex items-center justify-between border-b border-ink/10 pb-4">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.14em] text-coral">
             Second Brain AI
           </p>
-          <h3 className="mt-1 font-bold text-ink">Academic OS</h3>
+          <h3 className="mt-1 font-bold text-ink">Today&apos;s plan</h3>
         </div>
-        <button className="inline-flex items-center gap-2 rounded-full bg-ink px-3 py-2 text-xs font-bold text-white">
-          <Plus size={14} /> New
-        </button>
+        <span className="rounded-full bg-sage/25 px-3 py-2 text-xs font-bold text-emerald-800">
+          3 tasks
+        </span>
       </div>
-      <div className="grid gap-4 lg:grid-cols-[12rem_1fr_13rem]">
+
+      <div className="grid gap-4 sm:grid-cols-[10rem_1fr]">
         <aside className="rounded-[1.25rem] bg-mist p-3">
           <p className="mb-3 text-xs font-bold uppercase tracking-[0.14em] text-ink/40">
             Folders
           </p>
-          {folders.slice(0, 5).map((folder, index) => (
+          {folders.slice(0, 3).map((folder, index) => (
             <div
               key={folder}
               className={`mb-2 flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold ${
@@ -177,47 +148,64 @@ function DashboardMockup() {
             </div>
           ))}
         </aside>
-        <div className="grid gap-3 sm:grid-cols-3">
-          {["To Do", "In Progress", "Completed"].map((column, index) => (
-            <section key={column} className="rounded-[1.25rem] bg-[#fbfaf7] p-3">
-              <div className="mb-3 flex items-center justify-between">
-                <span className="text-xs font-bold text-ink/55">{column}</span>
-                <span className="h-2 w-2 rounded-full bg-sage" />
-              </div>
-              {[
-                ["Finish Systems Lab", "CS"],
-                ["Spanish vocab", "30 min"],
-                ["Research notes", "Paper"],
-              ]
-                .slice(0, index === 2 ? 1 : 2)
-                .map(([task, meta]) => (
-                  <article key={task} className="mb-3 rounded-xl border border-ink/10 bg-white p-3 shadow-card">
-                    <div className="flex items-start justify-between gap-2">
-                      <p className="text-sm font-bold text-ink">{task}</p>
-                      {index === 2 ? <CheckCircle2 size={15} className="text-sage" /> : null}
-                    </div>
-                    <span className="mt-3 inline-flex rounded-full bg-mist px-2 py-1 text-[11px] font-bold text-ink/55">
-                      {meta}
-                    </span>
-                  </article>
-                ))}
-            </section>
-          ))}
-        </div>
-        <div className="space-y-4">
-          <CalendarMini />
-          <div className="rounded-[1.25rem] border border-ink/10 bg-white p-4 shadow-card">
-            <div className="flex items-center gap-2 text-sm font-bold text-ink">
-              <Sparkles size={16} className="text-coral" />
-              Priority
+
+        <section className="rounded-[1.25rem] bg-[#fbfaf7] p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-coral">
+                Start here
+              </p>
+              <h4 className="mt-1 font-bold text-ink">Your next best task</h4>
             </div>
-            <p className="mt-3 text-sm leading-6 text-ink/65">
-              Best next task: Systems Lab
-            </p>
+            <Sparkles size={20} className="text-coral" />
           </div>
+
+          <article className="mt-4 rounded-[1.25rem] border border-coral/25 bg-coral/10 p-4 shadow-card">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-base font-bold text-ink">Finish Systems Lab</p>
+                <p className="mt-1 text-xs font-semibold text-ink/50">
+                  Computer Science · Due tomorrow
+                </p>
+              </div>
+              <span className="shrink-0 rounded-full bg-coral px-3 py-1.5 text-xs font-bold text-white">
+                45 min
+              </span>
+            </div>
+          </article>
+
+          <div className="mt-3 grid gap-2 sm:grid-cols-2">
+            {[
+              ["Spanish vocab", "2:00 PM"],
+              ["Internship draft", "5:30 PM"],
+            ].map(([task, time]) => (
+              <div
+                key={task}
+                className="flex items-center justify-between gap-3 rounded-xl border border-ink/10 bg-white px-3 py-3"
+              >
+                <span className="text-xs font-bold text-ink/70">{task}</span>
+                <span className="shrink-0 text-[11px] font-semibold text-ink/40">
+                  {time}
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      <div className="mt-4 flex items-start gap-3 rounded-[1.25rem] bg-ink p-4 text-white">
+        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-coral">
+          <Bot size={16} />
+        </span>
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.12em] text-coral">
+            Why this task
+          </p>
+          <p className="mt-1 text-sm leading-6 text-white/70">
+            It is due soon and needs your longest open focus block.
+          </p>
         </div>
       </div>
-      <AiPanel />
     </div>
   );
 }
