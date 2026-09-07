@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { defaultFilters, defaultFolders, defaultTasks } from "./defaultData.js";
 import { readStorage, writeStorage } from "../utils/storage.js";
 
@@ -25,6 +25,8 @@ export function AppDataProvider({ children }) {
   const [newTaskDefaults, setNewTaskDefaults] = useState(null);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   const [feedback, setFeedback] = useState("");
+  const feedbackTimer = useRef(null);
+  useEffect(() => () => window.clearTimeout(feedbackTimer.current), []);
 
   useEffect(() => writeStorage(keys.tasks, tasks), [tasks]);
   useEffect(() => writeStorage(keys.folders, folders), [folders]);
@@ -33,7 +35,8 @@ export function AppDataProvider({ children }) {
 
   const showFeedback = (message) => {
     setFeedback(message);
-    window.setTimeout(() => setFeedback(""), 1800);
+    window.clearTimeout(feedbackTimer.current);
+    feedbackTimer.current = window.setTimeout(() => setFeedback(""), 3000);
   };
 
   const folderMap = useMemo(
@@ -47,6 +50,7 @@ export function AppDataProvider({ children }) {
   const clearFilters = () => setFilters(defaultFilters);
 
   const addTask = (taskInput) => {
+    if (!taskInput.title?.trim()) return;
     const folderId = taskInput.folderId || "inbox";
     const nextTask = {
       id: makeId("task"),
@@ -57,7 +61,7 @@ export function AppDataProvider({ children }) {
       priority: taskInput.priority || "Medium",
       dueDate: taskInput.dueDate || "",
       estimate: taskInput.estimate || "30m",
-      storyPoints: Number(taskInput.storyPoints || 1),
+      storyPoints: Number(taskInput.storyPoints ?? 1),
       notes: taskInput.notes || "",
       subtasks: taskInput.subtasks || [],
       createdAt: new Date().toISOString(),
@@ -123,6 +127,7 @@ export function AppDataProvider({ children }) {
 
   const deleteFolder = (folderId) => {
     if (folderId === "inbox") return;
+    setFilters(current => current.folderId === folderId ? { ...current, folderId: "All" } : current);
     setFolders((current) => current.filter((folder) => folder.id !== folderId));
     setTasks((current) =>
       current.map((task) =>

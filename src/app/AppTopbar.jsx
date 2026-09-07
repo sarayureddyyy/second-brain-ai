@@ -1,4 +1,4 @@
-import { Bell, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useAppData } from "./AppDataContext.jsx";
 import SearchAndFilters from "./SearchAndFilters.jsx";
 
@@ -17,10 +17,7 @@ export default function AppTopbar({ title = "Dashboard" }) {
           </h1>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <SearchAndFilters />
-          <button className="flex h-10 w-10 items-center justify-center rounded-2xl border border-ink/10 bg-white text-ink shadow-sm transition hover:-translate-y-0.5 hover:border-coral">
-            <Bell size={17} />
-          </button>
+          {title === "Dashboard" ? <SearchAndFilters /> : null}
           <button
             type="button"
             onClick={() => setNewTaskDefaults({})}

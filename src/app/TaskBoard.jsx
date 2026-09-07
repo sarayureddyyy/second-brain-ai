@@ -1,3 +1,4 @@
+import { localDateKey } from "../utils/dates.js";
 import { useMemo } from "react";
 import { useAppData } from "./AppDataContext.jsx";
 import TaskColumn from "./TaskColumn.jsx";
@@ -21,6 +22,7 @@ export default function TaskBoard() {
     folders,
     folderMap,
     filters,
+    clearFilters,
     setNewTaskDefaults,
     setSelectedTaskId,
     completeTask,
@@ -36,10 +38,12 @@ export default function TaskBoard() {
   const activeTaskCount = tasks.filter((task) => task.status !== "completed").length;
   const completedCount = tasks.filter((task) => task.status === "completed").length;
   const dueTodayCount = tasks.filter(
-    (task) => task.status !== "completed" && task.dueDate === new Date().toISOString().slice(0, 10),
+    (task) => task.status !== "completed" && task.dueDate === localDateKey(),
   ).length;
 
   const visibleFolders = folders.filter((folder) => {
+    if (filters.status === "completed") return false;
+    if (filters.folderId !== "All") return folder.id === filters.folderId;
     if (folder.id === "inbox") {
       return filteredTasks.some((task) => task.folderId === "inbox");
     }
@@ -63,6 +67,12 @@ export default function TaskBoard() {
         </div>
       </div>
 
+      {filteredTasks.length === 0 && (filters.search || filters.priority !== "All" || filters.folderId !== "All" || filters.status !== "All") ? (
+        <div role="status" className="mb-4 rounded-2xl border border-ink/10 bg-white p-5">
+          <p className="text-sm font-semibold">No tasks match your filters.</p>
+          <button type="button" onClick={clearFilters} className="mt-3 text-sm font-bold underline">Clear filters</button>
+        </div>
+      ) : null}
       <div className="overflow-x-auto pb-4">
         <div className="flex min-w-max gap-4">
           {visibleFolders.map((folder) => (
@@ -80,17 +90,18 @@ export default function TaskBoard() {
               onReopenTask={reopenTask}
             />
           ))}
-          <TaskColumn
+          {filters.status !== "active" && <TaskColumn
             title="Completed"
             color="bg-emerald-500"
             completed
             folder={{ name: "Completed" }}
+            folderMap={folderMap}
             tasks={filteredTasks.filter((task) => task.status === "completed")}
             onAddTask={() => setNewTaskDefaults({})}
             onOpenTask={setSelectedTaskId}
             onCompleteTask={completeTask}
             onReopenTask={reopenTask}
-          />
+          />}
         </div>
       </div>
     </div>

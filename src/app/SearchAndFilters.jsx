@@ -6,12 +6,13 @@ export default function SearchAndFilters() {
 
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <label className="relative min-w-0 flex-1 sm:w-72 sm:flex-none">
+      <label className="relative w-full min-w-0 sm:w-72">
         <Search
           size={17}
           className="absolute left-3 top-1/2 -translate-y-1/2 text-ink/35"
         />
         <input
+          aria-label="Search tasks"
           value={filters.search}
           onChange={(event) => updateFilters({ search: event.target.value })}
           placeholder="Search tasks, folders, notes"
@@ -19,6 +20,7 @@ export default function SearchAndFilters() {
         />
       </label>
       <select
+        aria-label="Filter by priority"
         value={filters.priority}
         onChange={(event) => updateFilters({ priority: event.target.value })}
         className="rounded-2xl border border-ink/10 bg-white px-3 py-2.5 text-sm font-bold text-ink shadow-sm outline-none"
@@ -29,6 +31,7 @@ export default function SearchAndFilters() {
         <option>Low</option>
       </select>
       <select
+        aria-label="Filter by folder"
         value={filters.folderId}
         onChange={(event) => updateFilters({ folderId: event.target.value })}
         className="rounded-2xl border border-ink/10 bg-white px-3 py-2.5 text-sm font-bold text-ink shadow-sm outline-none"
@@ -41,6 +44,7 @@ export default function SearchAndFilters() {
         ))}
       </select>
       <select
+        aria-label="Filter by status"
         value={filters.status}
         onChange={(event) => updateFilters({ status: event.target.value })}
         className="rounded-2xl border border-ink/10 bg-white px-3 py-2.5 text-sm font-bold text-ink shadow-sm outline-none"

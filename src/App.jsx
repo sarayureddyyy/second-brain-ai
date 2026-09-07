@@ -32,6 +32,7 @@ import CalendarPage from "./pages/CalendarPage.jsx";
 import DashboardPage from "./pages/DashboardPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import SettingsPage from "./pages/SettingsPage.jsx";
+import FloatingChat from "./components/FloatingChat.jsx";
 
 const waitlistUrl =
   "https://docs.google.com/forms/d/e/1FAIpQLSejWYEeODBE0gQe-dpaemBbTqjJF4OrKRfp23SkW63mmdutQw/viewform?usp=header";
@@ -362,9 +363,15 @@ function ScienceSection() {
           formation. We believe productivity is not about working harder - it is
           about reducing the mental effort required to begin.
         </p>
-        <button className="mt-5 rounded-full border border-ink/10 bg-mist px-5 py-2.5 text-sm font-bold text-ink transition hover:-translate-y-0.5 hover:bg-white">
-          Learn More
-        </button>
+        <details className="mt-5 rounded-2xl bg-mist px-5 py-4">
+          <summary className="cursor-pointer text-sm font-bold">Learn more about our approach</summary>
+          <p className="mt-3 text-sm leading-6 text-ink/70">
+            Capture tasks in one place, split larger assignments into subtasks,
+            and review priorities before starting work. AI planning and calendar
+            integration are planned features; the workspace preview currently
+            supports organizing and tracking tasks on this device.
+          </p>
+        </details>
       </div>
 
       <div className="mt-10 rounded-[2rem] bg-ink px-6 py-10 text-center text-white shadow-soft">
@@ -479,6 +486,7 @@ export default function App() {
         <Route path="/waitlist" element={<MarketingLayout><WaitlistPage /></MarketingLayout>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      <FloatingChat />
     </BrowserRouter>
   );
 }

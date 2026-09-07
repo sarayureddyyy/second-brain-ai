@@ -7,6 +7,7 @@ export default function TaskColumn({
   color,
   tasks,
   folder,
+  folderMap,
   completed,
   onAddTask,
   onOpenTask,
@@ -26,13 +27,13 @@ export default function TaskColumn({
       </div>
       <div className="mt-2 grid flex-1 content-start gap-3">
         {tasks.length === 0 ? (
-          <EmptyColumnState onAddTask={onAddTask} />
+          completed ? <p className="p-4 text-sm text-ink/65">No completed tasks yet.</p> : <EmptyColumnState onAddTask={onAddTask} />
         ) : (
           tasks.map((task) => (
             <TaskCard
               key={task.id}
               task={task}
-              folder={folder}
+              folder={folderMap?.[task.folderId] || folder}
               onOpen={onOpenTask}
               onComplete={onCompleteTask}
               onReopen={onReopenTask}

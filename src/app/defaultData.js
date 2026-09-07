@@ -1,3 +1,4 @@
+import { localDateKey } from "../utils/dates.js";
 export const defaultFolders = [
   { id: "inbox", name: "Inbox", color: "bg-slate-400", taskCount: 0 },
   { id: "computer-science", name: "Computer Science", color: "bg-coral" },
@@ -24,7 +25,7 @@ export const defaultTasks = [
     folderId: "computer-science",
     status: "active",
     priority: "High",
-    dueDate: new Date().toISOString().slice(0, 10),
+    dueDate: localDateKey(),
     estimate: "4h",
     storyPoints: 5,
     notes: "Needs the longest uninterrupted work block.",

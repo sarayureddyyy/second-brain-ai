@@ -39,7 +39,7 @@ export default function SettingsPage() {
           >
             <h3 className="text-lg font-bold text-ink">{section.title}</h3>
             <p className="mt-2 text-sm leading-6 text-ink/60">{section.copy}</p>
-            <button className="mt-5 rounded-full bg-mist px-4 py-2 text-sm font-bold text-ink/55">
+            <button disabled className="mt-5 rounded-full bg-mist px-4 py-2 text-sm font-bold text-ink/55">
               Coming soon
             </button>
           </article>

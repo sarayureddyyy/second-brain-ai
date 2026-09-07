@@ -1,3 +1,4 @@
+import { localDateKey } from "../utils/dates.js";
 import { CheckCircle2, Clock3 } from "lucide-react";
 
 const priorityStyles = {
@@ -8,19 +9,19 @@ const priorityStyles = {
 
 function isToday(dateValue) {
   if (!dateValue) return false;
-  return dateValue === new Date().toISOString().slice(0, 10);
+  return dateValue === localDateKey();
 }
 
 function isOverdue(dateValue, status) {
   if (!dateValue || status === "completed") return false;
-  return dateValue < new Date().toISOString().slice(0, 10);
+  return dateValue < localDateKey();
 }
 
 export default function TaskCard({ task, folder, onOpen, onComplete, onReopen }) {
   const completed = task.status === "completed";
   const totalSubtasks = task.subtasks?.length || 0;
   const completedSubtasks = task.subtasks?.filter((subtask) => subtask.completed).length || 0;
-  const urgent = isToday(task.dueDate) || isOverdue(task.dueDate, task.status);
+  const urgent = !completed && (isToday(task.dueDate) || isOverdue(task.dueDate, task.status));
 
   return (
     <article
@@ -28,14 +29,17 @@ export default function TaskCard({ task, folder, onOpen, onComplete, onReopen })
       tabIndex={0}
       onClick={() => onOpen(task.id)}
       onKeyDown={(event) => {
-        if (event.key === "Enter") onOpen(task.id);
+        if (event.target === event.currentTarget && (event.key === "Enter" || event.key === " ")) {
+          event.preventDefault();
+          onOpen(task.id);
+        }
       }}
       className={`group rounded-2xl border bg-white p-4 text-left shadow-sm transition hover:-translate-y-1 hover:border-coral/40 hover:shadow-card ${
         urgent ? "border-coral/40 ring-4 ring-coral/10" : "border-ink/10"
       }`}
     >
       <div className="flex items-start justify-between gap-3">
-        <h3 className={`text-sm font-bold leading-5 text-ink ${completed ? "line-through opacity-60" : ""}`}>
+        <h3 className={`break-words text-sm font-bold leading-5 text-ink ${completed ? "line-through opacity-60" : ""}`}>
           {task.title}
         </h3>
         <button

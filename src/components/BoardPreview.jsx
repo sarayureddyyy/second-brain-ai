@@ -69,21 +69,21 @@ export default function BoardPreview() {
             <p className="text-sm text-ink/50">AI suggests the next move as work changes state.</p>
           </div>
         </div>
-        <button className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-ink px-4 py-2.5 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-coral sm:mt-0">
+        <span className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-ink px-4 py-2.5 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-coral sm:mt-0">
           <Plus size={16} /> New Task
-        </button>
+        </span>
       </div>
       <div className="grid lg:grid-cols-[15rem_1fr]">
         <aside className="border-b border-ink/10 bg-mist/55 p-5 lg:border-b-0 lg:border-r">
           <div className="flex items-center justify-between">
             <p className="text-xs font-bold uppercase tracking-[0.14em] text-ink/40">Folders</p>
-            <button className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-ink shadow-card transition hover:-translate-y-0.5">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-ink shadow-card transition hover:-translate-y-0.5">
               <FolderPlus size={15} />
-            </button>
+            </span>
           </div>
           <div className="mt-4 space-y-2">
             {folders.map((folder, index) => (
-              <button
+              <span
                 key={folder}
                 className={`flex w-full items-center justify-between rounded-2xl px-3 py-3 text-left text-sm font-semibold transition hover:-translate-y-0.5 hover:bg-white ${
                   index === 0 ? "bg-white text-ink shadow-card" : "text-ink/60"
@@ -91,12 +91,12 @@ export default function BoardPreview() {
               >
                 {folder}
                 <span className="h-2 w-2 rounded-full bg-sage" />
-              </button>
+              </span>
             ))}
           </div>
-          <button className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full border border-dashed border-ink/20 bg-white/60 px-3 py-2.5 text-sm font-bold text-ink/60 transition hover:border-sage hover:text-ink">
+          <span className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full border border-dashed border-ink/20 bg-white/60 px-3 py-2.5 text-sm font-bold text-ink/60 transition hover:border-sage hover:text-ink">
             <Plus size={15} /> New Folder
-          </button>
+          </span>
         </aside>
         <div className="bg-[#fbfaf7] p-4 sm:p-5">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">

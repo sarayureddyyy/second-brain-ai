@@ -56,7 +56,7 @@ function AppLayoutContent() {
       <NewTaskModal />
       <TaskDrawer />
       {feedback ? (
-        <div className="fixed bottom-5 left-1/2 z-50 -translate-x-1/2 rounded-full bg-ink px-5 py-3 text-sm font-bold text-white shadow-soft">
+        <div role="status" className="fixed bottom-5 left-1/2 z-50 -translate-x-1/2 rounded-full bg-ink px-5 py-3 text-sm font-bold text-white shadow-soft">
           {feedback}
         </div>
       ) : null}

@@ -43,11 +43,13 @@ export default function SubtaskList({ subtasks = [], onChange }) {
           <div key={subtask.id} className="flex items-center gap-2 rounded-2xl border border-ink/10 bg-white p-2">
             <input
               type="checkbox"
+              aria-label={`Complete subtask ${subtask.title || "Untitled"}`}
               checked={subtask.completed}
               onChange={(event) => updateSubtask(subtask.id, { completed: event.target.checked })}
               className="h-4 w-4 accent-coral"
             />
             <input
+              aria-label="Subtask title"
               value={subtask.title}
               onChange={(event) => updateSubtask(subtask.id, { title: event.target.value })}
               placeholder="Subtask"
@@ -55,6 +57,7 @@ export default function SubtaskList({ subtasks = [], onChange }) {
             />
             <button
               type="button"
+              aria-label={`Delete subtask ${subtask.title || "Untitled"}`}
               onClick={() => deleteSubtask(subtask.id)}
               className="text-ink/35 hover:text-coral"
             >

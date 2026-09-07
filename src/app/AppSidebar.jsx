@@ -10,19 +10,19 @@ import {
   Settings,
   Sparkles,
 } from "lucide-react";
-import FolderManager from "./FolderManager.jsx";
+import { useAppData } from "./AppDataContext.jsx";
 
 const navItems = [
   { label: "Dashboard", href: "/app/dashboard", icon: Home, active: "/app/dashboard" },
   { label: "Inbox", href: "/app/dashboard", icon: Inbox },
   { label: "Calendar", href: "/app/calendar", icon: CalendarDays },
   { label: "AI Planner", href: "/app/ai-planner", icon: Sparkles },
-  { label: "Analytics", href: "/app/dashboard", icon: BarChart3 },
   { label: "Settings", href: "/app/settings", icon: Settings },
 ];
 
 export default function AppSidebar({ collapsed, setCollapsed }) {
   const location = useLocation();
+  const { filters, updateFilters } = useAppData();
 
   return (
     <aside
@@ -54,14 +54,21 @@ export default function AppSidebar({ collapsed, setCollapsed }) {
 
       <nav className="mt-8 grid gap-1">
         {navItems.map((item) => {
-          const isActive = item.active
-            ? location.pathname === item.active
+          const isActive = item.label === "Inbox"
+            ? location.pathname === item.href && filters.folderId === "inbox"
+            : item.active
+            ? location.pathname === item.active && filters.folderId !== "inbox"
             : location.pathname === item.href && item.href !== "/app/dashboard";
 
           return (
             <Link
               key={item.label}
               to={item.href}
+              aria-label={item.label}
+              aria-current={isActive ? "page" : undefined}
+              onClick={() => {
+                if (item.href === "/app/dashboard") updateFilters({ search: "", folderId: item.label === "Inbox" ? "inbox" : "All", status: "All", priority: "All" });
+              }}
               className={`flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-bold transition ${
                 isActive
                   ? "bg-coral text-white shadow-card"
@@ -75,16 +82,14 @@ export default function AppSidebar({ collapsed, setCollapsed }) {
         })}
       </nav>
 
-      <FolderManager collapsed={collapsed} />
-
-      <div className="mt-5 flex items-center gap-3 rounded-2xl border border-ink/10 bg-mist p-3">
+      <div className="mt-auto flex items-center gap-3 rounded-2xl border border-ink/10 bg-mist p-3">
         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ink text-sm font-bold text-white">
-          SR
+          SB
         </span>
         {!collapsed ? (
           <div className="min-w-0">
-            <p className="truncate text-sm font-bold text-ink">Sarayu Reddy</p>
-            <p className="text-xs font-semibold text-ink/50">Private Beta</p>
+            <Link to="/" className="truncate text-sm font-bold text-ink">Second Brain AI</Link>
+            <p className="text-xs font-semibold text-ink/50">Local workspace preview</p>
           </div>
         ) : null}
       </div>

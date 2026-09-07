@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import useModal from "./useModal.js";
 import { X } from "lucide-react";
 import { useAppData } from "./AppDataContext.jsx";
 import TaskFormFields from "./TaskFormFields.jsx";
@@ -26,6 +27,8 @@ export default function NewTaskModal() {
     }
   }, [newTaskDefaults]);
 
+  const modalRef = useModal(Boolean(newTaskDefaults), () => setNewTaskDefaults(null));
+
   if (!newTaskDefaults) return null;
 
   const submit = (event) => {
@@ -38,6 +41,11 @@ export default function NewTaskModal() {
   return (
     <div className="fixed inset-0 z-50 grid place-items-center bg-ink/30 p-4 backdrop-blur-sm">
       <form
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="New task"
+        tabIndex={-1}
         onSubmit={submit}
         className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[2rem] border border-ink/10 bg-paper p-6 shadow-soft"
       >
@@ -48,6 +56,7 @@ export default function NewTaskModal() {
           </div>
           <button
             type="button"
+            aria-label="Close new task"
             onClick={() => setNewTaskDefaults(null)}
             className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-ink shadow-sm"
           >

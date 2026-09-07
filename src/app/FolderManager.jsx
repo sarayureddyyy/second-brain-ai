@@ -22,7 +22,7 @@ export default function FolderManager({ collapsed }) {
 
   return (
     <>
-      <div className="mt-8 min-h-0 flex-1 overflow-hidden">
+      <div className="mt-8 min-h-0 flex-1 overflow-y-auto">
         <div className="flex items-center justify-between px-3">
           {!collapsed ? (
             <p className="text-xs font-bold uppercase tracking-[0.14em] text-ink/35">
@@ -31,6 +31,7 @@ export default function FolderManager({ collapsed }) {
           ) : null}
           <button
             type="button"
+            aria-label="Add folder"
             onClick={() => {
               const name = window.prompt("New folder name");
               if (name) addFolder(name);
@@ -70,9 +71,10 @@ export default function FolderManager({ collapsed }) {
                     {taskCounts[folder.id] || 0}
                   </span>
                   {folder.id !== "inbox" ? (
-                    <div className="flex gap-1 opacity-0 transition group-hover:opacity-100">
+                    <div className="flex gap-1 opacity-100 transition lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-within:opacity-100">
                       <button
                         type="button"
+                        aria-label={`Rename ${folder.name}`}
                         onClick={() => startRename(folder)}
                         className="rounded-full p-1 text-ink/45 hover:text-coral"
                       >

@@ -109,9 +109,9 @@ function AiPanel({ compact = false }) {
         Finish the CS lab before internship work. It needs a longer focus block,
         and your calendar is open until noon.
       </p>
-      <button className="mt-4 inline-flex items-center gap-2 rounded-full bg-ink px-3 py-2 text-xs font-bold text-white">
+      <span className="mt-4 inline-flex items-center gap-2 rounded-full bg-ink px-3 py-2 text-xs font-bold text-white">
         Apply plan <ArrowRight size={13} />
-      </button>
+      </span>
     </div>
   );
 }
@@ -457,12 +457,12 @@ function AiAssistantSection() {
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             {suggestions.map((suggestion) => (
-              <button
+              <span
                 key={suggestion}
                 className="rounded-full border border-ink/10 bg-white px-4 py-2.5 text-sm font-bold text-ink shadow-card transition hover:-translate-y-0.5 hover:border-coral/40"
               >
                 {suggestion}
-              </button>
+              </span>
             ))}
           </div>
         </div>
@@ -497,12 +497,12 @@ function AiAssistantSection() {
 
               <div className="mt-5 grid grid-cols-2 gap-2">
                 {suggestions.map((suggestion) => (
-                  <button
+                  <span
                     key={suggestion}
                     className="rounded-full bg-white px-3 py-2 text-xs font-bold text-ink ring-1 ring-ink/10 transition hover:bg-mist"
                   >
                     {suggestion}
-                  </button>
+                  </span>
                 ))}
               </div>
             </div>

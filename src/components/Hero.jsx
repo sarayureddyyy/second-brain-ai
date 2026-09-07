@@ -29,7 +29,7 @@ export default function Hero() {
               Join the Waitlist <ArrowRight size={17} />
             </a>
             <a
-              href="/platform"
+              href="/how-it-works"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/12 bg-white/75 px-6 py-3.5 text-sm font-bold text-ink shadow-card transition hover:-translate-y-1 hover:border-sage"
             >
               <PlayCircle size={17} /> See How It Works

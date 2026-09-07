@@ -128,8 +128,7 @@ function DesktopMockup({ step }) {
           </p>
           <h3 className="font-bold">Semester workspace</h3>
         </div>
-        <button
-          type="button"
+        <span
           className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold transition duration-500 ${
             step === 1
               ? "bg-coral text-white ring-4 ring-coral/20"
@@ -138,10 +137,10 @@ function DesktopMockup({ step }) {
         >
           <Plus size={13} />
           New Task
-        </button>
+        </span>
       </div>
 
-      <div className="grid gap-3 lg:grid-cols-[11rem_1fr_12rem]">
+      <div className="grid gap-3 xl:grid-cols-[9rem_minmax(0,1fr)]">
         <aside className="rounded-[1.25rem] bg-mist p-3">
           <div className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-ink/40">
             <Folder size={14} /> Folders
@@ -208,7 +207,7 @@ function DesktopMockup({ step }) {
           </div>
         </div>
 
-        <div className="space-y-3">
+        <div className="grid gap-3 sm:grid-cols-2 xl:col-span-2">
           <div className="rounded-[1.25rem] border border-ink/10 bg-white p-3 shadow-sm">
             <div className="mb-3 flex items-center gap-2 text-xs font-bold">
               <Bot size={15} className="text-coral" /> AI Assistant
@@ -280,9 +279,8 @@ function MobileMockup({ step }) {
         </div>
         <div className="mt-3 grid gap-2">
           {["Start Focus", "Snooze 15 min", "Reschedule"].map((action, index) => (
-            <button
+            <span
               key={action}
-              type="button"
               className={`rounded-full px-3 py-2 text-xs font-bold transition ${
                 step === 4 && index === 0
                   ? "bg-coral text-white ring-4 ring-coral/15"
@@ -290,7 +288,7 @@ function MobileMockup({ step }) {
               }`}
             >
               {action}
-            </button>
+            </span>
           ))}
         </div>
         <div className="mt-3 flex items-center gap-2 rounded-2xl bg-sage/25 px-3 py-2 text-xs font-bold text-emerald-800">
@@ -346,7 +344,7 @@ function DemoPopup({ step }) {
   );
 }
 
-function ProgressBar({ step }) {
+function ProgressBar({ step, paused }) {
   return (
     <div className="h-2 overflow-hidden rounded-full bg-white/10">
       <div
@@ -354,18 +352,22 @@ function ProgressBar({ step }) {
         className="h-2 rounded-full bg-coral"
         style={{
           animation: "demo-progress 3600ms linear both",
+          animationPlayState: paused ? "paused" : "running",
         }}
       />
     </div>
   );
 }
 
-function StepIndicator({ currentStep }) {
+function StepIndicator({ currentStep, onSelect }) {
   return (
     <div className="grid gap-2 sm:grid-cols-3 lg:grid-cols-6">
       {demoSteps.map((step, index) => (
-        <div
+        <button
           key={step.title}
+          type="button"
+          aria-pressed={currentStep === index}
+          onClick={() => onSelect(index)}
           className={`rounded-2xl px-3 py-2 text-left text-xs font-bold transition ${
             currentStep === index ? "bg-coral text-white" : "bg-white/10 text-white/65"
           }`}
@@ -374,7 +376,7 @@ function StepIndicator({ currentStep }) {
             Step {index + 1}
           </span>
           {step.title}
-        </div>
+        </button>
       ))}
     </div>
   );
@@ -397,13 +399,15 @@ function DemoStage({ step }) {
 
 export default function DemoPage() {
   const [step, setStep] = useState(0);
+  const [paused, setPaused] = useState(() => window.matchMedia("(prefers-reduced-motion: reduce)").matches);
 
   useEffect(() => {
+    if (paused) return;
     const id = window.setInterval(() => {
       setStep((current) => (current + 1) % demoSteps.length);
     }, 3600);
     return () => window.clearInterval(id);
-  }, []);
+  }, [paused]);
 
   return (
     <section
@@ -420,7 +424,7 @@ export default function DemoPage() {
             Watch your school life organize itself.
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-white/65">
-            A guided walkthrough of how Second Brain AI turns scattered tasks into a clear plan.
+            A guided preview of the planned experience. Use the steps below to explore at your own pace.
           </p>
         </div>
 
@@ -429,8 +433,11 @@ export default function DemoPage() {
         </div>
 
         <div className="mx-auto mt-5 max-w-6xl space-y-4">
-          <ProgressBar step={step} />
-          <StepIndicator currentStep={step} />
+          <button type="button" onClick={() => setPaused(current => !current)} className="rounded-full border border-white/30 px-5 py-2 text-sm font-bold">
+            {paused ? "Play walkthrough" : "Pause walkthrough"}
+          </button>
+          <ProgressBar step={step} paused={paused} />
+          <StepIndicator currentStep={step} onSelect={index => { setPaused(true); setStep(index); }} />
         </div>
       </div>
     </section>

@@ -13,6 +13,7 @@ const navItems = [
 
 export default function Navbar({ activePage = "top", onNavigate }) {
   const handleNavigate = (event, page) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || !onNavigate) return;
     event.preventDefault();
     onNavigate?.(page);
   };
@@ -20,11 +21,11 @@ export default function Navbar({ activePage = "top", onNavigate }) {
   return (
     <header className="sticky top-0 z-50 shrink-0 border-b border-ink/10 bg-paper/95 backdrop-blur-xl">
       <nav className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-3 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <a
             href="/"
             onClick={(event) => handleNavigate(event, "top")}
-            className="flex min-w-0 items-center gap-2 text-base font-bold text-ink"
+            className="flex w-full min-w-0 items-center gap-2 sm:w-auto sm:mr-auto text-base font-bold text-ink"
           >
             <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-ink text-white">
               <GraduationCap size={20} />
@@ -43,7 +44,7 @@ export default function Navbar({ activePage = "top", onNavigate }) {
             href="/login"
             className="shrink-0 rounded-full border border-ink/10 bg-white px-4 py-2.5 text-sm font-bold text-ink shadow-card transition hover:-translate-y-0.5 hover:border-coral hover:text-coral"
           >
-            Log In
+            Open workspace
           </a>
         </div>
         <div className="flex w-full items-center gap-2 overflow-x-auto pb-1">
