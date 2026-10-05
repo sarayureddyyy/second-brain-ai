@@ -8,6 +8,8 @@ import { addDays, startOfWeek, monthDays, moveDate, minutes, timeLabel, layoutEv
 import "./calendar.css";
 
 const storageKey = "second-brain-ai.calendar.v1";
+const viewStorageKey = "second-brain-ai.calendar-view.v1";
+const calendarViews = { day: "Daily", week: "Weekly", month: "Monthly" };
 const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const categories = { study: "Study", class: "Class", personal: "Personal" };
 const longDate = date => date.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric", year: "numeric" });
@@ -54,7 +56,10 @@ function Agenda({ date, events, tasks, onEdit, onTask, onAdd }) {
 
 export default function CalendarPage() {
   const { tasks, setSelectedTaskId } = useAppData();
-  const [view, setView] = useState("month");
+  const [view, setView] = useState(() => {
+    const saved = readStorage(viewStorageKey, "month");
+    return Object.hasOwn(calendarViews, saved) ? saved : "month";
+  });
   const [selected, setSelected] = useState(() => new Date());
   const [events, setEvents] = useState(() => readStorage(storageKey, []).filter(validEvent).map(event => ({ ...event, category: categories[event.category] ? event.category : "study" })));
   const [editor, setEditor] = useState(null);
@@ -62,6 +67,7 @@ export default function CalendarPage() {
   const [now, setNow] = useState(() => new Date());
   const timeline = useRef(null);
   useEffect(() => { writeStorage(storageKey, events); }, [events]);
+  useEffect(() => { writeStorage(viewStorageKey, view); }, [view]);
   useEffect(() => { const id = setInterval(() => setNow(new Date()), 60000); return () => clearInterval(id); }, []);
   useEffect(() => { if (timeline.current && view !== "month") timeline.current.scrollTop = 7 * 64; }, [view]);
   const today = localDateKey(now);
@@ -80,7 +86,7 @@ export default function CalendarPage() {
       <div className="cal-shell">
         <div className="cal-toolbar">
           <div className="cal-navigation"><button className="cal-icon" aria-label={`Previous ${view}`} onClick={() => setSelected(current => moveDate(current, view, -1))}><ChevronLeft size={20} /></button><button className="cal-icon" aria-label={`Next ${view}`} onClick={() => setSelected(current => moveDate(current, view, 1))}><ChevronRight size={20} /></button><h2 aria-live="polite">{heading}</h2><button className="cal-button" onClick={() => setSelected(new Date())}>Today</button></div>
-          <div className="cal-views" role="group" aria-label="Calendar view">{["month", "week", "day"].map(mode => <button key={mode} aria-pressed={view === mode} onClick={() => setView(mode)}>{mode[0].toUpperCase() + mode.slice(1)}</button>)}</div>
+          <div className="cal-view-picker"><span className="cal-view-label">Calendar view</span><div className="cal-views" role="group" aria-label="Calendar view">{Object.entries(calendarViews).map(([mode, label]) => <button type="button" key={mode} aria-pressed={view === mode} onClick={() => setView(mode)}>{label}</button>)}</div></div>
         </div>
         <div className="cal-legend">{Object.entries(categories).map(([key, label]) => <span key={key}><i className={`cal-dot cal-tone-${key}`} />{label}</span>)}<span className="cal-local">Saved on this device · All times local</span></div>
         {view === "month" ? <div className="cal-month-scroll"><div className="cal-month">

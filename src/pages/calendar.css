@@ -12,7 +12,10 @@
 .cal-toolbar { justify-content:space-between; padding:22px 24px 16px; }
 .cal-navigation { flex:1; }
 .cal-navigation h2 { font-size:clamp(19px,2vw,28px); font-weight:650; letter-spacing:-.035em; margin:0 12px 0 0; }
+.cal-view-picker { display:flex; flex-direction:column; gap:6px; }
+.cal-view-label { font-size:12px; font-weight:650; color:var(--cal-muted); }
 .cal-views { display:flex; background:#f1f4f2; padding:4px; border-radius:12px; gap:3px; }
+.cal-views button:focus-visible { outline:2px solid #476e59; outline-offset:2px; }
 .cal-views button { padding:8px 18px; font-size:14px; border-radius:9px; font-weight:650; }
 .cal-views button[aria-pressed=true] { background:#263e36; color:white; box-shadow:0 2px 5px #1f293318; }
 .cal-legend { padding:0 24px 18px; font-size:12px; color:var(--cal-muted); gap:18px; }
@@ -94,4 +97,5 @@
 .cal-error { color:#9c3e30; font-size:14px; margin-top:14px; }
 .cal-notice { font-size:14px; color:#264e3b; margin-top:12px; }
 @media(min-width:1600px) { .cal-cell { min-height:150px; } .cal-time-scroll { max-height:780px; } }
+@media(max-width:640px) { .cal-view-picker { width:100%; } }
 @media(max-width:640px) { .cal-toolbar { padding:16px 12px; gap:16px; } .cal-navigation { gap:6px; } .cal-navigation h2 { order:-1; width:100%; margin:0 0 7px; font-size:23px; } .cal-views { width:100%; } .cal-views button { flex:1; } .cal-legend { padding:0 12px 14px; gap:12px; } .cal-local { margin-left:0; width:100%; } .cal-agenda { padding:18px; } .cal-agenda h3 { font-size:18px; } .cal-month { min-width:560px; } .cal-cell { min-height:105px; } .cal-editor { padding:20px; } .cal-agenda-event { gap:8px; } .cal-agenda-time { flex-basis:75px; font-size:12px; } }
