@@ -1,4 +1,5 @@
 import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { useAuth } from "../auth/AuthContext.jsx";
 import { CalendarDays, Home, Settings, Sparkles } from "lucide-react";
 import { AppDataProvider, useAppData } from "./AppDataContext.jsx";
 import AppSidebar from "./AppSidebar.jsx";
@@ -65,8 +66,9 @@ function AppLayoutContent() {
 }
 
 export default function AppLayout() {
+  const { user } = useAuth();
   return (
-    <AppDataProvider>
+    <AppDataProvider key={user.id} userId={user.id}>
       <AppLayoutContent />
     </AppDataProvider>
   );

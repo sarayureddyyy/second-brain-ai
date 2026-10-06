@@ -33,9 +33,7 @@ import DashboardPage from "./pages/DashboardPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import SettingsPage from "./pages/SettingsPage.jsx";
 import FloatingChat from "./components/FloatingChat.jsx";
-
-const waitlistUrl =
-  "https://docs.google.com/forms/d/e/1FAIpQLSejWYEeODBE0gQe-dpaemBbTqjJF4OrKRfp23SkW63mmdutQw/viewform?usp=header";
+import { AuthProvider, RequireAuth } from "./auth/AuthContext.jsx";
 
 const features = [
   {
@@ -225,14 +223,6 @@ function HowItWorks() {
         </h3>
         <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
           <a
-            href={waitlistUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center justify-center rounded-full bg-coral px-6 py-3 text-sm font-bold text-white transition hover:-translate-y-1 hover:bg-white hover:text-ink"
-          >
-            Join Waitlist
-          </a>
-          <a
             href="/demo"
             className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-3 text-sm font-bold text-white transition hover:-translate-y-1 hover:bg-white/10"
           >
@@ -393,37 +383,12 @@ function LiveDemoSection() {
   return <DemoPage />;
 }
 
-function WaitlistPage() {
-  return (
-    <section className="section-shell">
-      <div className="mx-auto max-w-3xl rounded-[2rem] bg-ink p-8 text-center text-white shadow-soft">
-        <p className="eyebrow">Private beta</p>
-        <h1 className="mt-4 text-4xl font-semibold tracking-tight">
-          Join the Second Brain AI waitlist.
-        </h1>
-        <p className="mt-4 text-base leading-7 text-white/68">
-          Get access when the private beta opens for more students.
-        </p>
-        <a
-          href={waitlistUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="mt-6 inline-flex rounded-full bg-coral px-6 py-3 text-sm font-bold text-white transition hover:-translate-y-1 hover:bg-white hover:text-ink"
-        >
-          Join Waitlist
-        </a>
-      </div>
-    </section>
-  );
-}
-
 const pathToPage = {
   "/": "top",
   "/platform": "platform",
   "/how-it-works": "how-it-works",
   "/science": "science",
   "/demo": "live-demo",
-  "/waitlist": "waitlist",
 };
 
 const pageToPath = {
@@ -432,7 +397,6 @@ const pageToPath = {
   "how-it-works": "/how-it-works",
   science: "/science",
   "live-demo": "/demo",
-  waitlist: "/waitlist",
 };
 
 function MarketingLayout({ children }) {
@@ -469,9 +433,11 @@ function HomePage() {
 export default function App() {
   return (
     <BrowserRouter>
+      <AuthProvider>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/app" element={<AppLayout />}>
+        <Route path="/reset-password" element={<LoginPage />} />
+        <Route path="/app" element={<RequireAuth><AppLayout /></RequireAuth>}>
           <Route index element={<Navigate to="/app/dashboard" replace />} />
           <Route path="dashboard" element={<DashboardPage />} />
           <Route path="calendar" element={<CalendarPage />} />
@@ -483,10 +449,11 @@ export default function App() {
         <Route path="/how-it-works" element={<MarketingLayout><HowItWorks /></MarketingLayout>} />
         <Route path="/science" element={<MarketingLayout><ScienceSection /></MarketingLayout>} />
         <Route path="/demo" element={<MarketingLayout><LiveDemoSection /></MarketingLayout>} />
-        <Route path="/waitlist" element={<MarketingLayout><WaitlistPage /></MarketingLayout>} />
+        <Route path="/waitlist" element={<Navigate to="/" replace />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <FloatingChat />
+      </AuthProvider>
     </BrowserRouter>
   );
 }

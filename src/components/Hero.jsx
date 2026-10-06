@@ -1,7 +1,4 @@
-import { ArrowRight, PlayCircle, Sparkles } from "lucide-react";
-
-const waitlistUrl =
-  "https://docs.google.com/forms/d/e/1FAIpQLSejWYEeODBE0gQe-dpaemBbTqjJF4OrKRfp23SkW63mmdutQw/viewform?usp=header";
+import { PlayCircle, Sparkles } from "lucide-react";
 
 export default function Hero() {
   return (
@@ -20,14 +17,6 @@ export default function Hero() {
             tasks in one place - then let AI help you prioritize what to do next.
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <a
-              href={waitlistUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-6 py-3.5 text-sm font-bold text-white shadow-card transition hover:-translate-y-1 hover:bg-coral"
-            >
-              Join the Waitlist <ArrowRight size={17} />
-            </a>
             <a
               href="/how-it-works"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/12 bg-white/75 px-6 py-3.5 text-sm font-bold text-ink shadow-card transition hover:-translate-y-1 hover:border-sage"

@@ -1,8 +1,8 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
-import { defaultFilters, defaultFolders, defaultTasks } from "./defaultData.js";
+import { defaultFilters, defaultFolders } from "./defaultData.js";
 import { readStorage, writeStorage } from "../utils/storage.js";
 
-const keys = {
+const baseKeys = {
   tasks: "second-brain-ai.tasks.v2",
   folders: "second-brain-ai.folders.v2",
   filters: "second-brain-ai.filters.v2",
@@ -15,9 +15,10 @@ function makeId(prefix) {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
-export function AppDataProvider({ children }) {
-  const [tasks, setTasks] = useState(() => readStorage(keys.tasks, defaultTasks));
-  const [folders, setFolders] = useState(() => readStorage(keys.folders, defaultFolders));
+export function AppDataProvider({ children, userId }) {
+  const keys = useMemo(() => Object.fromEntries(Object.entries(baseKeys).map(([name, key]) => [name, `${key}.${userId}`])), [userId]);
+  const [tasks, setTasks] = useState(() => readStorage(keys.tasks, []));
+  const [folders, setFolders] = useState(() => readStorage(keys.folders, [defaultFolders[0]]));
   const [filters, setFilters] = useState(() => readStorage(keys.filters, defaultFilters));
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() =>
     readStorage(keys.sidebarCollapsed, false),

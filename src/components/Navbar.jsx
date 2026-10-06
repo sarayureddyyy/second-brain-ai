@@ -1,8 +1,5 @@
 import { GraduationCap } from "lucide-react";
 
-const waitlistUrl =
-  "https://docs.google.com/forms/d/e/1FAIpQLSejWYEeODBE0gQe-dpaemBbTqjJF4OrKRfp23SkW63mmdutQw/viewform?usp=header";
-
 const navItems = [
   { label: "Home", page: "top", href: "/" },
   { label: "The Platform", page: "platform", href: "/platform" },
@@ -31,14 +28,6 @@ export default function Navbar({ activePage = "top", onNavigate }) {
               <GraduationCap size={20} />
             </span>
             <span className="truncate">Second Brain AI</span>
-          </a>
-          <a
-            href={waitlistUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="shrink-0 rounded-full bg-coral px-4 py-2.5 text-sm font-bold text-white shadow-card ring-4 ring-coral/15 transition hover:-translate-y-0.5 hover:bg-ink md:px-5"
-          >
-            Join Waitlist
           </a>
           <a
             href="/login"
