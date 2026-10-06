@@ -50,7 +50,7 @@ export default function LoginPage() {
         <Link to="/" className="inline-flex items-center gap-2 font-bold"><GraduationCap size={24} /> Second Brain AI</Link>
         <p className="eyebrow mt-10">Your workspace</p>
         <h1 className="mt-4 text-4xl font-semibold tracking-tight">{title}</h1>
-        <p className="mt-4 leading-7 text-ink/70">{reset ? "Use at least 8 characters." : mode === "signup" ? "Sign up and verify your email to open your workspace." : mode === "forgot" ? "We’ll email you a link to choose a new password." : "Log in to organize your classes, tasks, and plans."}</p>
+        <p className="mt-4 leading-7 text-ink/70">{reset ? "Use at least 8 characters." : mode === "signup" ? "Create an account and verify your email. Workspace access requires a $6/month subscription." : mode === "forgot" ? "We’ll email you a link to choose a new password." : "Log in to organize your classes, tasks, and plans."}</p>
         {!reset && mode !== "forgot" && <div className="mt-6 flex gap-2" aria-label="Account options">
           {["login", "signup"].map(next => <button key={next} type="button" disabled={busy} aria-pressed={mode === next} onClick={() => changeMode(next)} className={`flex-1 rounded-full px-4 py-2.5 font-bold ${mode === next ? "bg-ink text-white" : "bg-mist text-ink"}`}>{next === "login" ? "Log in" : "Create account"}</button>)}
         </div>}

@@ -34,6 +34,8 @@ import LoginPage from "./pages/LoginPage.jsx";
 import SettingsPage from "./pages/SettingsPage.jsx";
 import FloatingChat from "./components/FloatingChat.jsx";
 import { AuthProvider, RequireAuth } from "./auth/AuthContext.jsx";
+import { BillingProvider, RequireSubscription } from "./billing/BillingContext.jsx";
+import BillingPage from "./pages/BillingPage.jsx";
 
 const features = [
   {
@@ -434,10 +436,12 @@ export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
+      <BillingProvider>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/reset-password" element={<LoginPage />} />
-        <Route path="/app" element={<RequireAuth><AppLayout /></RequireAuth>}>
+        <Route path="/billing" element={<RequireAuth><BillingPage /></RequireAuth>} />
+        <Route path="/app" element={<RequireAuth><RequireSubscription><AppLayout /></RequireSubscription></RequireAuth>}>
           <Route index element={<Navigate to="/app/dashboard" replace />} />
           <Route path="dashboard" element={<DashboardPage />} />
           <Route path="calendar" element={<CalendarPage />} />
@@ -453,6 +457,7 @@ export default function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <FloatingChat />
+      </BillingProvider>
       </AuthProvider>
     </BrowserRouter>
   );
