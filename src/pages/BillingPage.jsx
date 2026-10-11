@@ -33,7 +33,7 @@ export default function BillingPage() {
       <h1 className="mt-4 text-4xl font-semibold tracking-tight">One plan. A calmer semester.</h1>
       <p className="mt-5 text-4xl font-bold">$6 <span className="text-base font-normal text-ink/60">USD / month</span></p>
       <p className="mt-4 leading-7 text-ink/70">Subscribe to enter your workspace. Your subscription renews monthly until canceled. Cancel through Manage billing.</p>
-      <p className="mt-4 rounded-xl bg-mist p-3 text-sm">Sandbox checkout: test payments only. No real money is collected.</p>
+      {billing?.sandbox && <p className="mt-4 rounded-xl bg-mist p-3 text-sm">Sandbox checkout: test payments only. No real money is collected.</p>}
       <p className="mt-4 break-all text-sm text-ink/60">Signed in as {user.email}</p>
       {params.get("checkout") === "success" && <p role="status" className="mt-4 text-sm">Checking your payment with Stripe. If access hasn’t opened yet, check again in a moment.</p>}
       {params.get("checkout") === "canceled" && <p role="status" className="mt-4 text-sm">Checkout was canceled. You can return to it when you’re ready.</p>}

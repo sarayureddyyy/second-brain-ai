@@ -6,18 +6,19 @@ export class BillingError extends Error {
 }
 
 export function billingServices(env = process.env) {
-  const required = ["STRIPE_SECRET_KEY", "SUPABASE_SERVICE_ROLE_KEY", "APP_URL"];
+  const required = ["STRIPE_SECRET_KEY", "STRIPE_PRICE_ID", "SUPABASE_SERVICE_ROLE_KEY", "APP_URL"];
   if (required.some(name => !env[name])) throw new BillingError(503, "Billing is being set up. Please try again later.");
-  // This first integration is sandbox-only until an explicit live rollout.
-  if (!env.STRIPE_SECRET_KEY.startsWith("sk_test_")) throw new BillingError(503, "Sandbox billing is not configured correctly.");
+  if (!/^sk_(test|live)_/.test(env.STRIPE_SECRET_KEY)) throw new BillingError(503, "Billing is not configured correctly.");
+  const livemode = env.STRIPE_SECRET_KEY.startsWith("sk_live_");
   const url = env.SUPABASE_URL || "https://xxmqfkqawpdivxrltnii.supabase.co";
   const db = createClient(url, env.SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false, autoRefreshToken: false } });
   const siteUrl = new URL(env.APP_URL).origin;
   if (!siteUrl.startsWith("https://") && !/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(siteUrl)) throw new BillingError(503, "Billing is not configured correctly.");
   return {
     auth: db.auth, db, stripe: new Stripe(env.STRIPE_SECRET_KEY), siteUrl,
-    priceId: env.STRIPE_PRICE_ID || "price_1UNgFTKNIrCbezemGWSdGvD9",
-    productId: "prod_VOTBaUBOvF2QP1",
+    priceId: env.STRIPE_PRICE_ID,
+    productId: env.STRIPE_PRODUCT_ID || null,
+    livemode,
   };
 }
 
@@ -28,13 +29,13 @@ export function hasPaidAccess(subscription, priceId) {
 }
 
 async function customerIdFor(user, services, create = false) {
-  const { db, stripe } = services;
-  const { data, error } = await db.from("billing_customers").select("stripe_customer_id").eq("user_id", user.id).eq("livemode", false).maybeSingle();
+  const { db, stripe, livemode } = services;
+  const { data, error } = await db.from("billing_customers").select("stripe_customer_id").eq("user_id", user.id).eq("livemode", livemode).maybeSingle();
   if (error) throw error;
   if (data) return data.stripe_customer_id;
   if (!create) return null;
-  const customer = await stripe.customers.create({ email: user.email, metadata: { supabase_user_id: user.id } }, { idempotencyKey: `customer:test:${user.id}` });
-  const inserted = await db.from("billing_customers").upsert({ user_id: user.id, livemode: false, stripe_customer_id: customer.id }, { onConflict: "user_id,livemode", ignoreDuplicates: true });
+  const customer = await stripe.customers.create({ email: user.email, metadata: { supabase_user_id: user.id } }, { idempotencyKey: `customer:${livemode ? "live" : "test"}:${user.id}` });
+  const inserted = await db.from("billing_customers").upsert({ user_id: user.id, livemode, stripe_customer_id: customer.id }, { onConflict: "user_id,livemode", ignoreDuplicates: true });
   if (inserted.error) throw inserted.error;
   // A concurrent request may already have saved the mapping; always use that row.
   return customerIdFor(user, services);
@@ -53,7 +54,7 @@ export async function handleBilling({ method, action, token }, services) {
   const { data, error } = await services.auth.getUser(token);
   if (error || !data.user?.email_confirmed_at) throw new BillingError(401, "Please log in with a verified account.");
   const user = data.user;
-  const { stripe, priceId, productId, siteUrl } = services;
+  const { stripe, priceId, productId, siteUrl, livemode } = services;
   let customer = await customerIdFor(user, services);
   if (action === "portal") {
     if (!customer) throw new BillingError(409, "Subscribe before managing billing.");
@@ -63,11 +64,11 @@ export async function handleBilling({ method, action, token }, services) {
   const subscriptions = customer ? await subscriptionsFor(customer, stripe) : [];
   const active = subscriptions.find(subscription => hasPaidAccess(subscription, priceId));
   const current = active || subscriptions.find(subscription => subscription.items.data.some(item => item.price.id === priceId) && !["canceled", "incomplete_expired"].includes(subscription.status));
-  if (action === "status") return { active: Boolean(active), status: current?.status || "none", hasCustomer: Boolean(customer), sandbox: true };
+  if (action === "status") return { active: Boolean(active), status: current?.status || "none", hasCustomer: Boolean(customer), sandbox: !livemode };
   if (active) return { url: `${siteUrl}/app/dashboard` };
   if (current) throw new BillingError(409, "Your subscription needs attention. Use Manage billing to finish payment or update your card.");
   const price = await stripe.prices.retrieve(priceId);
-  if (!price.active || price.livemode || price.product !== productId || price.unit_amount !== 600 || price.currency !== "usd" || price.recurring?.interval !== "month" || price.recurring.interval_count !== 1) throw new BillingError(503, "The $6 monthly plan is not configured correctly.");
+  if (!price.active || price.livemode !== livemode || (productId && price.product !== productId) || price.unit_amount !== 600 || price.currency !== "usd" || price.recurring?.interval !== "month" || price.recurring.interval_count !== 1 || price.billing_scheme !== "per_unit" || price.recurring.usage_type !== "licensed") throw new BillingError(503, "The $6 monthly plan is not configured correctly.");
   customer ||= await customerIdFor(user, services, true);
   const open = await stripe.checkout.sessions.list({ customer, status: "open", limit: 100 });
   const existing = open.data.find(session => session.mode === "subscription" && session.metadata?.price_id === priceId && session.url);
@@ -78,6 +79,6 @@ export async function handleBilling({ method, action, token }, services) {
     metadata: { supabase_user_id: user.id, price_id: priceId },
     subscription_data: { metadata: { supabase_user_id: user.id } },
     success_url: `${siteUrl}/billing?checkout=success`, cancel_url: `${siteUrl}/billing?checkout=canceled`,
-  }, { idempotencyKey: `checkout:test:${customer}:${priceId}:${Math.floor(Date.now() / 300000)}` });
+  }, { idempotencyKey: `checkout:${livemode ? "live" : "test"}:${customer}:${priceId}:${Math.floor(Date.now() / 300000)}` });
   return { url: session.url };
 }
