@@ -83,6 +83,7 @@ test("checkout pins the $6 price, customer, account identity and trusted return 
   await handleBilling({ method: "POST", action: "checkout", token: "verified-token" }, svc);
   const [, options, config] = svc.calls.find(([type]) => type === "checkout");
   assert.deepEqual(options.line_items, [{ price: priceId, quantity: 1 }]);
+  assert.equal(Object.hasOwn(options, "payment_method_types"), false);
   assert.equal(options.customer, "cus_ours");
   assert.equal(options.client_reference_id, "our-user");
   assert.equal(options.success_url, "https://example.com/billing?checkout=success");

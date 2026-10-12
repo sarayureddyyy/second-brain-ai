@@ -75,7 +75,7 @@ export async function handleBilling({ method, action, token }, services) {
   if (existing) return { url: existing.url };
   const session = await stripe.checkout.sessions.create({
     mode: "subscription", customer, client_reference_id: user.id,
-    payment_method_types: ["card"], line_items: [{ price: priceId, quantity: 1 }],
+    line_items: [{ price: priceId, quantity: 1 }],
     metadata: { supabase_user_id: user.id, price_id: priceId },
     subscription_data: { metadata: { supabase_user_id: user.id } },
     success_url: `${siteUrl}/billing?checkout=success`, cancel_url: `${siteUrl}/billing?checkout=canceled`,
