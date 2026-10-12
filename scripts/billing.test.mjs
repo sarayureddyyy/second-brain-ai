@@ -1,10 +1,18 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { billingServices, handleBilling, hasPaidAccess } from "../server/billing.js";
-import handler from "../api/billing.js";
+import handler, { billingDiagnostic } from "../api/billing.js";
 
 const priceId = "price_1UNgFTKNIrCbezemGWSdGvD9";
 const productId = "prod_VOTBaUBOvF2QP1";
+test("billing diagnostics retain useful errors while redacting credentials", () => {
+  const result = billingDiagnostic(Object.assign(new Error("Invalid API Key provided: sk_live_secret123 Bearer private-token"), { type: "StripeAuthenticationError", requestId: "req_example" }));
+  assert.equal(result.type, "StripeAuthenticationError");
+  assert.equal(result.requestId, "req_example");
+  assert.ok(result.message.includes("Invalid API Key"));
+  assert.ok(!result.message.includes("secret123"));
+  assert.ok(!result.message.includes("private-token"));
+});
 const paid = { status: "active", pause_collection: null, latest_invoice: { status: "paid" }, items: { data: [{ price: { id: priceId } }] } };
 function services(subscriptions = []) {
   const calls = [];
